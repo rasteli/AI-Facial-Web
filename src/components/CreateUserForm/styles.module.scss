@@ -1,0 +1,170 @@
+.container {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 5%;
+
+  .innerContainer {
+    color: #282a36;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 40%;
+    min-width: 370px;
+
+    padding: 20px;
+    border-radius: 8px;
+
+    background-color: #f8f8f8;
+    box-shadow: 2px 2px 10px #00000025;
+
+    form {
+      display: flex;
+      flex-direction: column;
+
+      width: 80%;
+      // min-width: 200px;
+
+      margin: 20px;
+      padding: 20px 40px;
+      border-radius: 8px;
+      border: 1px solid #282a36;
+
+      label {
+        font-weight: 700;
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
+
+      input {
+        border: 0;
+        outline: 0;
+
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 15px;
+
+        min-width: 270px;
+        border-radius: 5px;
+        background-color: #fff;
+        border: 1px solid #d3d3d3;
+
+        &:focus {
+          outline: #2684ff solid 2px;
+        }
+      }
+
+      .inputBlock {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .inputInBlock {
+          display: flex;
+          flex-direction: column;
+
+          .reactSelect {
+            min-width: 290px;
+          }
+        }
+      }
+
+      .buttons {
+        margin-top: 20px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        button {
+          border: 0;
+          border-radius: 8px;
+
+          padding: 10px 20px;
+          min-width: 250px;
+
+          font-weight: 700;
+          cursor: pointer;
+        }
+
+        button[type="button"] {
+          background: none;
+          color: #282a36;
+          border: 2px solid #282a36;
+          transition: all 150ms;
+
+          &:hover {
+            color: #f8f8f8;
+            background: #282a36;
+          }
+        }
+
+        button[type="submit"] {
+          background: #282a36;
+          color: #f8f8f8;
+          border: 2px solid #282a36;
+
+          transition: all 150ms;
+
+          &:hover {
+            color: #282a36;
+            background: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1800px) {
+  .container {
+    .innerContainer {
+      form {
+        .inputBlock {
+          flex-direction: column;
+
+          .reactSelect {
+            margin-bottom: 15px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1600px) {
+  .container {
+    .innerContainer {
+      form {
+        .buttons {
+          button {
+            min-width: 200px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1300px) {
+  .container {
+    .innerContainer {
+      form {
+        .buttons {
+          flex-direction: column;
+
+          button {
+            margin-top: 5px;
+          }
+        }
+      }
+    }
+  }
+}
