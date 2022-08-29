@@ -14,14 +14,7 @@ export function useFetch<Data = any>(
   payload?: Payload
 ) {
   const { data, error } = useSWR<Data>(url, async url => {
-    const methods = {
-      get: api.get,
-      put: api.put,
-      post: api.post,
-      delete: api.delete
-    }
-
-    const httpRequest = methods[method]
+    const httpRequest = api[method]
     const response = await httpRequest(url, payload)
 
     return response.data
