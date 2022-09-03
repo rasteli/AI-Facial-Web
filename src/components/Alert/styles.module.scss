@@ -1,0 +1,47 @@
+$border: 1px solid;
+
+dialog {
+  padding: 20px;
+  position: absolute;
+
+  top: 10px;
+  border-radius: 10px;
+
+  animation: slide 500ms, rslide 500ms 5s;
+
+  @keyframes slide {
+    0% {
+      left: -500px;
+    }
+    100% {
+      left: 0;
+    }
+  }
+
+  @keyframes rslide {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -500px;
+    }
+  }
+}
+
+.success {
+  color: #11361a;
+  border: $border #206330;
+  background-color: #50fa7b40;
+}
+
+.danger {
+  color: #361212;
+  border: $border #ff5555;
+  background-color: #ff555540;
+}
+
+.info {
+  color: #183035;
+  border: $border #56909c;
+  background-color: #8be9fd40;
+}

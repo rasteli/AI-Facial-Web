@@ -4,8 +4,8 @@ export interface UserPostOrPutPayload {
   phone?: string
   gender?: string
   nickname?: string
-  birth_date?: Date
   password?: string
+  birthDate?: string
 }
 
 export interface UserDeletePayload {

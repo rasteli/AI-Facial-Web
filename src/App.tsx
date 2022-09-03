@@ -1,7 +1,10 @@
 import { AppRoutes } from "./routes"
+import { useAuth } from "./contexts/AuthContext"
 
 function App() {
-  return <AppRoutes />
+  const { isLoading } = useAuth()
+
+  return isLoading ? <div>Loading...</div> : <AppRoutes />
 }
 
 export default App

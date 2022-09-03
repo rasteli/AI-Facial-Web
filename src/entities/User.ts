@@ -5,5 +5,5 @@ export interface User {
   phone: string
   gender: string
   nickname: string
-  birth_date: Date
+  birthDate: string
 }
