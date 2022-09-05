@@ -1,5 +1,9 @@
 import { useEffect, useRef } from "react"
+import * as faceapi from "face-api.js"
 
+import { detectFace } from "../../utils/detectFace"
+
+const MIN_PROB_FACE = 50
 const NUMBER_OF_PHOTOS = 20
 
 export function Webcam() {
@@ -11,8 +15,22 @@ export function Webcam() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
+    ;(function () {
+      const MODEL_URL = "/models"
+      const faceNets = faceapi.nets
+
+      Promise.all([
+        faceNets.tinyFaceDetector.loadFromUri(MODEL_URL),
+        faceNets.faceLandmark68Net.loadFromUri(MODEL_URL),
+        faceNets.faceRecognitionNet.loadFromUri(MODEL_URL),
+        faceNets.faceExpressionNet.loadFromUri(MODEL_URL)
+      ]).then(() => console.log("Models loading complete"))
+    })()
+  }, [])
+
+  useEffect(() => {
     ;(async function () {
-      getVideo()
+      await getVideo()
     })()
   }, [videoRef])
 
@@ -31,27 +49,36 @@ export function Webcam() {
   }
 
   function paintToCanvas() {
-    const video = videoRef.current as HTMLVideoElement
-    const photo = canvasRef.current as HTMLCanvasElement
-
-    const ctx = photo.getContext("2d") as CanvasRenderingContext2D
-
     const width = 320
     const height = 240
-    photo.width = width
-    photo.height = height
 
-    const interval = setInterval(() => {
-      ctx.drawImage(video, 0, 0, width, height)
+    const video = videoRef.current as HTMLVideoElement
+    const canvas = canvasRef.current as HTMLCanvasElement
+    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D
 
-      if (qtyImg === NUMBER_OF_PHOTOS) {
-        console.log("Request")
-        stopWebcam()
-        clearInterval(interval)
-      } else {
-        takePhoto()
+    canvas.width = width
+    canvas.height = height
+
+    const interval = setInterval(async () => {
+      const { faceDescriptions, probability } = await detectFace(
+        canvas,
+        video,
+        width,
+        height
+      )
+
+      if (faceDescriptions.length === 1 && probability >= MIN_PROB_FACE) {
+        ctx.drawImage(video, 0, 0, width, height)
+
+        if (qtyImg === NUMBER_OF_PHOTOS) {
+          console.log("Request")
+          stopWebcam()
+          clearInterval(interval)
+        } else {
+          takePhoto()
+        }
       }
-    }, 200)
+    }, 250)
 
     return interval
   }
@@ -75,14 +102,17 @@ export function Webcam() {
   function stopWebcam() {
     const video = videoRef.current as HTMLVideoElement
     const stream = video.srcObject as MediaStream
-    const tracks = stream.getTracks()
 
-    for (let i = 0; i < tracks.length; i++) {
-      let track = tracks[i]
-      track.stop()
+    if (stream) {
+      const tracks = stream.getTracks()
+
+      for (let i = 0; i < tracks.length; i++) {
+        let track = tracks[i]
+        track.stop()
+      }
+
+      video.srcObject = null
     }
-
-    video.srcObject = null
   }
 
   return (
