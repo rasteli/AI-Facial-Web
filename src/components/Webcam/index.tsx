@@ -1,14 +1,20 @@
 import { useEffect, useRef } from "react"
 import * as faceapi from "face-api.js"
 
-import { faceApi } from "../../services/faceApi"
+import { useAuth } from "../../contexts/AuthContext"
 import { detectFace } from "../../utils/detectFace"
+import { singUp, login } from "../../utils/webcamRequests"
+
+interface WebcamProps {
+  requestType: "signUp" | "login"
+}
 
 const MIN_PROB_FACE = 50
-const NUMBER_OF_PHOTOS = 20
+const NUMBER_OF_PHOTOS = 4
 
-export function Webcam() {
+export function Webcam({ requestType }: WebcamProps) {
   let qtyImg = 0
+  const { user } = useAuth()
 
   const stripRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -73,42 +79,17 @@ export function Webcam() {
       )
 
       if (faceDescriptions.length === 1 && probability >= MIN_PROB_FACE) {
-        const compareForm = new FormData()
-
         ctx.drawImage(video, 0, 0, width, height)
 
-        if (qtyImg === 4) {
-          console.log("Request")
-          const getFaceResponse = await faceApi.post("/getface", getForm, {
-            headers: { "Content-Type": "multipart/form-data" }
-          })
+        const requests = {
+          login: () => login(user),
+          signUp: () => singUp(getForm)
+        }
 
-          const { faces } = getFaceResponse.data
+        if (qtyImg === NUMBER_OF_PHOTOS) {
+          const request = requests["login"]
 
-          compareForm.append("familiar_faces", "")
-          compareForm.append("faces", faces)
-
-          const compareFacesResponse = await faceApi.post(
-            "/compare",
-            compareForm,
-            { headers: { "Content-Type": "multipart/form-data" } }
-          )
-
-          let { res, index } = compareFacesResponse.data
-          const names = [
-            "Joshua",
-            "Rasteli",
-            "Jarbas",
-            "Leonardo",
-            "João Bolito",
-            "Fabrício",
-            "Marrenta",
-            "Guidelli"
-          ]
-
-          res = eval(res)
-          index = Number(index)
-          const prob = parseInt((res[index] * 100).toFixed(2))
+          await request()
 
           // Logging form entries in the console
           for (const key of getForm.entries()) {
@@ -116,7 +97,6 @@ export function Webcam() {
           }
 
           stopWebcam()
-          alert(`Pessoa: ${names[index]}. Probabilidade de ${prob}%`)
           clearInterval(interval)
         } else {
           takePhoto(getForm)
