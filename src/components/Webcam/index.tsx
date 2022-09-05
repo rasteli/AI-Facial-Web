@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react"
 import * as faceapi from "face-api.js"
 
+import { faceApi } from "../../services/faceApi"
 import { detectFace } from "../../utils/detectFace"
 
 const MIN_PROB_FACE = 50
@@ -8,7 +9,6 @@ const NUMBER_OF_PHOTOS = 20
 
 export function Webcam() {
   let qtyImg = 0
-  const form = new FormData()
 
   const stripRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -39,16 +39,21 @@ export function Webcam() {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { width: 300 }
       })
+
+      // Permission granted
       const video = videoRef.current as HTMLVideoElement
 
       video.srcObject = stream
       video.play()
     } catch (error) {
+      // Permission denied
       console.error(error)
     }
   }
 
   function paintToCanvas() {
+    const getForm = new FormData()
+
     const width = 320
     const height = 240
 
@@ -68,14 +73,53 @@ export function Webcam() {
       )
 
       if (faceDescriptions.length === 1 && probability >= MIN_PROB_FACE) {
+        const compareForm = new FormData()
+
         ctx.drawImage(video, 0, 0, width, height)
 
-        if (qtyImg === NUMBER_OF_PHOTOS) {
+        if (qtyImg === 4) {
           console.log("Request")
+          const getFaceResponse = await faceApi.post("/getface", getForm, {
+            headers: { "Content-Type": "multipart/form-data" }
+          })
+
+          const { faces } = getFaceResponse.data
+
+          compareForm.append("familiar_faces", "")
+          compareForm.append("faces", faces)
+
+          const compareFacesResponse = await faceApi.post(
+            "/compare",
+            compareForm,
+            { headers: { "Content-Type": "multipart/form-data" } }
+          )
+
+          let { res, index } = compareFacesResponse.data
+          const names = [
+            "Joshua",
+            "Rasteli",
+            "Jarbas",
+            "Leonardo",
+            "João Bolito",
+            "Fabrício",
+            "Marrenta",
+            "Guidelli"
+          ]
+
+          res = eval(res)
+          index = Number(index)
+          const prob = parseInt((res[index] * 100).toFixed(2))
+
+          // Logging form entries in the console
+          for (const key of getForm.entries()) {
+            console.log(key[0] + ", " + key[1])
+          }
+
           stopWebcam()
+          alert(`Pessoa: ${names[index]}. Probabilidade de ${prob}%`)
           clearInterval(interval)
         } else {
-          takePhoto()
+          takePhoto(getForm)
         }
       }
     }, 250)
@@ -83,7 +127,7 @@ export function Webcam() {
     return interval
   }
 
-  function takePhoto() {
+  function takePhoto(form: FormData) {
     let canvas = canvasRef.current as HTMLCanvasElement
     let strip = stripRef.current as HTMLDivElement
 
