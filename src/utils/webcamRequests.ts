@@ -1,39 +1,50 @@
-import { User } from "../entities/User"
+import { NavigateFunction } from "react-router-dom"
+
 import { Face } from "../entities/Face"
+import { logIn } from "../contexts/AuthContext"
 
 import { api } from "../services/api"
 import { faceApi } from "../services/faceApi"
 
-export async function singUp(getForm: FormData) {
-  const getFaceResponse = await faceApi.post("/getface", getForm, {
+async function getFaces(form: FormData) {
+  const getFaceResponse = await faceApi.post("/getface", form, {
     headers: { "Content-Type": "multipart/form-data" }
   })
 
   const { faces } = getFaceResponse.data
+
+  return faces
+}
+
+export async function signUp(form: FormData) {
+  const faces = await getFaces(form)
   const response = await api.put("/userface", { faces })
 
   console.log(response.data)
 }
 
-export async function login(user: User | null) {
-  if (!user) return
-
+export async function login(
+  form: FormData,
+  login: string,
+  password: string,
+  logIn: logIn,
+  navigate: NavigateFunction
+) {
   const compareForm = new FormData()
 
   const { data } = await api.get("/faces")
 
   const faces: Face[] = data.faces
-  const familiar_faces: Face[] = []
+  const familiarFaces: Face[] = []
+  const userFaces = await getFaces(form)
 
   faces.forEach(face => {
     const familiar_face = eval(face.face)[0]
-    familiar_faces.push(familiar_face)
+    familiarFaces.push(familiar_face)
   })
 
-  console.log(user)
-
-  compareForm.append("faces", user.face.face)
-  compareForm.append("familiar_faces", `[${familiar_faces}]`)
+  compareForm.append("faces", userFaces)
+  compareForm.append("familiar_faces", `[${familiarFaces}]`)
 
   const compareFacesResponse = await faceApi.post("/compare", compareForm, {
     headers: { "Content-Type": "multipart/form-data" }
@@ -47,4 +58,16 @@ export async function login(user: User | null) {
 
   const prob = parseInt((probabilities[index] * 100).toFixed(2))
   console.log(`Pessoa: ${names[index]}. Probabilidade de ${prob}%`)
+
+  try {
+    const name = names[index]
+    await logIn({ login, name, password })
+  } catch (error: any) {
+    const errorMessage = error.response.data.error
+
+    navigate("/login", {
+      replace: true,
+      state: { error: true, errorMessage }
+    })
+  }
 }

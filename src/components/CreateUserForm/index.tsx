@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Select from "react-select"
 
 import styles from "./styles.module.scss"
@@ -9,6 +9,7 @@ import { useAuth } from "../../contexts/AuthContext"
 
 export function CreateUserForm() {
   const { signUp } = useAuth()
+  const navigate = useNavigate()
 
   const [isOpen, setIsOpen] = useState(false)
   const [alertMessage, setAlertMessage] = useState("")
@@ -39,6 +40,7 @@ export function CreateUserForm() {
 
     try {
       await signUp(payload)
+      navigate("/webcam", { replace: false, state: { requestType: "signUp" } })
     } catch (error: any) {
       setAlertMessage(error.response.data.error)
       setIsOpen(true)
@@ -121,9 +123,14 @@ export function CreateUserForm() {
           <hr />
 
           <div className={styles.buttons}>
-            <Link to="/login">
-              <button type="button">FAZER LOGIN</button>
-            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                navigate("/login", { replace: false })
+              }}
+            >
+              FAZER LOGIN
+            </button>
             <button type="submit">CADASTRAR</button>
           </div>
         </form>

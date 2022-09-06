@@ -1,32 +1,53 @@
 import { useEffect, useRef, useState } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
 import * as faceapi from "face-api.js"
 
+import { GrantPermission } from "../GrantPermission"
 import { useAuth } from "../../contexts/AuthContext"
-import { detectFace } from "../../utils/detectFace"
-import { singUp, login } from "../../utils/webcamRequests"
 
-interface WebcamProps {
-  requestType: "signUp" | "login"
+import { detectFace } from "../../utils/detectFace"
+import { signUp, login } from "../../utils/webcamRequests"
+
+type LocationState = {
+  login: string
+  password: string
+  requestType: "login" | "signUp"
 }
 
 const MIN_PROB_FACE = 50
 const NUMBER_OF_PHOTOS = 4
 
-export function Webcam({ requestType }: WebcamProps) {
-  let qtyImg = 0
-  const getForm = new FormData()
+export function Webcam() {
+  const { logIn } = useAuth()
 
-  var interval: number
-
-  const { user } = useAuth()
-  const [intervalDone, setIntervalDone] = useState(false)
+  const location = useLocation()
+  const navigate = useNavigate()
 
   const stripRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
+  const [intervalDone, setIntervalDone] = useState(false)
+  const [canVideo, setCanVideo] = useState(
+    localStorage.getItem("canVideo") === "true"
+  )
+
+  let qtyImg = 0
+  var interval: number
+
+  const form = new FormData()
+  const state = location.state as LocationState
+
+  useEffect(() => {
+    // If there's no state — meaning this location was accessed directly
+    // via URL —, redirect to the previous location.
+    if (!state) return navigate(-1)
+  }, [])
+
   useEffect(() => {
     ;(function () {
+      if (!canVideo) return
+
       const MODEL_URL = "/models"
       const faceNets = faceapi.nets
 
@@ -37,13 +58,15 @@ export function Webcam({ requestType }: WebcamProps) {
         faceNets.faceExpressionNet.loadFromUri(MODEL_URL)
       ]).then(() => console.log("Models loading complete"))
     })()
-  }, [])
+  }, [canVideo])
 
   useEffect(() => {
     ;(async function () {
+      if (!canVideo) return
+
       await getVideo()
     })()
-  }, [videoRef])
+  }, [videoRef, canVideo])
 
   useEffect(() => {
     clearInterval(interval)
@@ -88,25 +111,28 @@ export function Webcam({ requestType }: WebcamProps) {
       if (faceDescriptions.length === 1 && probability >= MIN_PROB_FACE) {
         ctx.drawImage(video, 0, 0, width, height)
 
-        const requests = {
-          login: () => login(user),
-          signUp: () => singUp(getForm)
-        }
-
         if (qtyImg === NUMBER_OF_PHOTOS) {
           qtyImg++
 
           // Logging form entries in the console
-          console.log(Array.from(getForm.entries()))
+          console.log(Array.from(form.entries()))
 
-          const request = requests["login"]
+          const requests = {
+            signUp: () => signUp(form),
+            login: () =>
+              login(form, state.login, state.password, logIn, navigate)
+          }
+
+          const request = requests[state.requestType]
 
           await request()
 
           stopWebcam()
           setIntervalDone(true)
+
+          navigate("/", { replace: true })
         } else if (qtyImg < NUMBER_OF_PHOTOS) {
-          takePhoto(getForm)
+          takePhoto(form)
         }
       }
     }, 250)
@@ -152,13 +178,17 @@ export function Webcam({ requestType }: WebcamProps) {
 
   return (
     <div>
-      <div>
-        <video onCanPlay={paintToCanvas} ref={videoRef} />
-        <canvas ref={canvasRef} style={{ display: "none" }} />
-        <div>
-          <div ref={stripRef} />
-        </div>
-      </div>
+      {canVideo ? (
+        <>
+          <video onCanPlay={paintToCanvas} ref={videoRef} />
+          <canvas ref={canvasRef} style={{ display: "none" }} />
+          <div>
+            <div ref={stripRef} />
+          </div>
+        </>
+      ) : (
+        <GrantPermission setCanVideo={setCanVideo} />
+      )}
     </div>
   )
 }

@@ -6,6 +6,7 @@ export interface UserPostOrPutPayload {
   nickname?: string
   password?: string
   birthDate?: string
+  login?: string
 }
 
 export interface UserDeletePayload {

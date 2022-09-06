@@ -4,6 +4,9 @@ import { api } from "../services/api"
 import { User } from "../entities/User"
 import { UserPostOrPutPayload } from "../entities/UserPayload"
 
+export type logIn = (payload: UserPostOrPutPayload) => Promise<void>
+export type signUp = (payload: UserPostOrPutPayload) => Promise<void>
+
 interface AuthProviderProps {
   children: React.ReactNode
 }
@@ -21,8 +24,8 @@ interface AuthContextData {
   user: User | null
   isLoading: boolean
   signOut: () => void
-  logIn: (payload: UserPostOrPutPayload) => Promise<void>
-  signUp: (payload: UserPostOrPutPayload) => Promise<void>
+  logIn: logIn
+  signUp: signUp
   // sendResetEmail: (email: string) => Promise<ResetResponse>
   // resetPassword: (user_id: string, password: string) => Promise<void>
 }
@@ -90,7 +93,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function logIn(payload: UserPostOrPutPayload) {
     const body = {
-      email: payload.email,
+      name: payload.name,
+      login: payload.login,
       password: payload.password
     }
 

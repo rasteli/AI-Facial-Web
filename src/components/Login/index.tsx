@@ -1,33 +1,43 @@
-import { FormEvent, useState } from "react"
-import { Link } from "react-router-dom"
+import { FormEvent, useState, useEffect } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
 
 import styles from "./styles.module.scss"
+
 import { Alert } from "../Alert"
-import { useAuth } from "../../contexts/AuthContext"
+
+type LocationState = {
+  error: boolean
+  errorMessage: string
+}
 
 export function Login() {
-  const { logIn } = useAuth()
+  const location = useLocation()
+  const navigate = useNavigate()
 
-  const [email, setEmail] = useState("")
+  const [login, setLogin] = useState("")
   const [password, setPassword] = useState("")
 
   const [isOpen, setIsOpen] = useState(false)
   const [alertMessage, setAlertMessage] = useState("")
 
+  useEffect(() => {
+    // When returning from Webcam if there is any error
+    // while trying to login.
+    const state = location.state as LocationState
+
+    if (state?.error) {
+      setAlertMessage(state.errorMessage)
+      setIsOpen(true)
+    }
+  }, [])
+
   async function handleFormSubmit(e: FormEvent) {
     e.preventDefault()
 
-    const payload = {
-      email,
-      password
-    }
-
-    try {
-      await logIn(payload)
-    } catch (error: any) {
-      setAlertMessage(error.response.data.error)
-      setIsOpen(true)
-    }
+    navigate("/webcam", {
+      replace: false,
+      state: { requestType: "login", login, password }
+    })
   }
 
   return (
@@ -43,7 +53,7 @@ export function Login() {
           <label htmlFor="email">EMAIL OU APELIDO</label>
           <input
             type="text"
-            onChange={e => setEmail(e.target.value)}
+            onChange={e => setLogin(e.target.value)}
             required
           />
 
@@ -57,9 +67,14 @@ export function Login() {
           <hr />
 
           <div className={styles.buttons}>
-            <Link to="/signup">
-              <button type="button">FAZER CADASTRO</button>
-            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                navigate("/signup", { replace: false })
+              }}
+            >
+              FAZER CADASTRO
+            </button>
             <button type="submit">LOGIN</button>
           </div>
         </form>
