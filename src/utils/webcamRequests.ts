@@ -20,10 +20,12 @@ export async function login(user: User | null) {
 
   const compareForm = new FormData()
 
-  const response = await api.get("/faces")
+  const { data } = await api.get("/faces")
+
+  const faces: Face[] = data.faces
   const familiar_faces: Face[] = []
 
-  response.data.faces.forEach((face: Face) => {
+  faces.forEach(face => {
     const familiar_face = eval(face.face)[0]
     familiar_faces.push(familiar_face)
   })
@@ -38,20 +40,11 @@ export async function login(user: User | null) {
   })
 
   let { res, index } = compareFacesResponse.data
-  const names = [
-    "Joshua",
-    "Rasteli",
-    "Jarbas",
-    "Leonardo",
-    "João Bolito",
-    "Fabrício",
-    "Marrenta",
-    "Guidelli"
-  ]
-
-  res = eval(res)
+  const names = faces.map(face => face.user.name)
   index = Number(index)
 
-  const prob = parseInt((res[index] * 100).toFixed(2))
+  const probabilities = eval(res)
+
+  const prob = parseInt((probabilities[index] * 100).toFixed(2))
   console.log(`Pessoa: ${names[index]}. Probabilidade de ${prob}%`)
 }

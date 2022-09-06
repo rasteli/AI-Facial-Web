@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import * as faceapi from "face-api.js"
 
 import { useAuth } from "../../contexts/AuthContext"
@@ -14,7 +14,12 @@ const NUMBER_OF_PHOTOS = 4
 
 export function Webcam({ requestType }: WebcamProps) {
   let qtyImg = 0
+  const getForm = new FormData()
+
+  var interval: number
+
   const { user } = useAuth()
+  const [intervalDone, setIntervalDone] = useState(false)
 
   const stripRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -40,6 +45,10 @@ export function Webcam({ requestType }: WebcamProps) {
     })()
   }, [videoRef])
 
+  useEffect(() => {
+    clearInterval(interval)
+  }, [intervalDone])
+
   async function getVideo() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -58,8 +67,6 @@ export function Webcam({ requestType }: WebcamProps) {
   }
 
   function paintToCanvas() {
-    const getForm = new FormData()
-
     const width = 320
     const height = 240
 
@@ -70,7 +77,7 @@ export function Webcam({ requestType }: WebcamProps) {
     canvas.width = width
     canvas.height = height
 
-    const interval = setInterval(async () => {
+    interval = setInterval(async () => {
       const { faceDescriptions, probability } = await detectFace(
         canvas,
         video,
@@ -87,18 +94,18 @@ export function Webcam({ requestType }: WebcamProps) {
         }
 
         if (qtyImg === NUMBER_OF_PHOTOS) {
+          qtyImg++
+
+          // Logging form entries in the console
+          console.log(Array.from(getForm.entries()))
+
           const request = requests["login"]
 
           await request()
 
-          // Logging form entries in the console
-          for (const key of getForm.entries()) {
-            console.log(key[0] + ", " + key[1])
-          }
-
           stopWebcam()
-          clearInterval(interval)
-        } else {
+          setIntervalDone(true)
+        } else if (qtyImg < NUMBER_OF_PHOTOS) {
           takePhoto(getForm)
         }
       }
@@ -108,6 +115,8 @@ export function Webcam({ requestType }: WebcamProps) {
   }
 
   function takePhoto(form: FormData) {
+    console.log(`Trying with ${qtyImg}`)
+
     let canvas = canvasRef.current as HTMLCanvasElement
     let strip = stripRef.current as HTMLDivElement
 
@@ -118,7 +127,8 @@ export function Webcam({ requestType }: WebcamProps) {
     strip.insertBefore(img, strip.firstChild)
 
     canvas.toBlob(blob => {
-      form.append(`img${qtyImg}`, blob as Blob, `img${qtyImg}.jpg`)
+      form.append(`img-${qtyImg}`, blob as Blob, `img-${qtyImg}.jpg`)
+      console.log(`Took photo: img-${qtyImg}`)
       qtyImg++
     }, "image/jpeg")
   }
@@ -135,7 +145,8 @@ export function Webcam({ requestType }: WebcamProps) {
         track.stop()
       }
 
-      video.srcObject = null
+      // video.srcObject = null
+      video.pause()
     }
   }
 
