@@ -83,9 +83,9 @@ export function Webcam() {
 
       video.srcObject = stream
       video.play()
-    } catch (error) {
+    } catch (error: any) {
       // Permission denied
-      console.error(error)
+      alert(error.message)
     }
   }
 
