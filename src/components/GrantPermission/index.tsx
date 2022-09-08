@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom"
 import styles from "./styles.module.scss"
 
 interface GrantPermissionProps {
@@ -6,8 +5,6 @@ interface GrantPermissionProps {
 }
 
 export function GrantPermission({ setCanVideo }: GrantPermissionProps) {
-  const navigate = useNavigate()
-
   return (
     <div className={styles.container}>
       <p>
@@ -21,9 +18,8 @@ export function GrantPermission({ setCanVideo }: GrantPermissionProps) {
             localStorage.setItem("canVideo", "true")
           }}
         >
-          SIM
+          OK
         </button>
-        <button onClick={() => navigate("/")}>NÃO</button>
       </div>
     </div>
   )

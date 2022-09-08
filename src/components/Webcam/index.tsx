@@ -18,7 +18,7 @@ const MIN_PROB_FACE = 50
 const NUMBER_OF_PHOTOS = 4
 
 export function Webcam() {
-  const { logIn } = useAuth()
+  const { logIn, setUser } = useAuth()
 
   const location = useLocation()
   const navigate = useNavigate()
@@ -118,7 +118,7 @@ export function Webcam() {
           console.log(Array.from(form.entries()))
 
           const requests = {
-            signUp: () => signUp(form),
+            signUp: () => signUp(form, setUser),
             login: () =>
               login(form, state.login, state.password, logIn, navigate)
           }

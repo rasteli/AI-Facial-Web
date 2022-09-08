@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, createContext } from "react"
+import React, { useContext, useEffect, useState, createContext } from "react"
 
 import { api } from "../services/api"
 import { User } from "../entities/User"
@@ -26,6 +26,7 @@ interface AuthContextData {
   signOut: () => void
   logIn: logIn
   signUp: signUp
+  setUser: React.Dispatch<React.SetStateAction<User | null>>
   // sendResetEmail: (email: string) => Promise<ResetResponse>
   // resetPassword: (user_id: string, password: string) => Promise<void>
 }
@@ -121,7 +122,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     isLoading,
     logIn,
     signUp,
-    signOut
+    signOut,
+    setUser
     // resetPassword,
     // sendResetEmail
   }

@@ -1,3 +1,5 @@
+import { UpdateItem } from "../UpdateItem"
+import { items } from "../../utils/homeItems"
 import { useAuth } from "../../contexts/AuthContext"
 
 export function Home() {
@@ -7,12 +9,22 @@ export function Home() {
     <div>
       <h1>Dados do usuário: {user?.name}</h1>
       <ul>
-        <li>ID: {user?.id}</li>
-        <li>Apelido: {user?.nickname}</li>
-        <li>Email: {user?.email}</li>
-        <li>Sexo: {user?.gender}</li>
-        <li>Telefone: {user?.phone}</li>
-        <li>Data de nascimento: {user?.birthDate}</li>
+        <li>
+          <label htmlFor="">ID</label>
+          <input type="text" defaultValue={user?.id} disabled />
+        </li>
+        {items.map((item, index) => (
+          <UpdateItem
+            key={index}
+            user={user}
+            label={item.label}
+            update={item.update}
+            select={item.select}
+            htmlFor={item.htmlFor}
+            inputType={item.inputType}
+            defaultItem={item.htmlFor}
+          />
+        ))}
       </ul>
       <button onClick={signOut}>Sair</button>
     </div>

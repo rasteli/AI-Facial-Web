@@ -1,10 +1,14 @@
+import React from "react"
 import { NavigateFunction } from "react-router-dom"
 
+import { User } from "../entities/User"
 import { Face } from "../entities/Face"
 import { logIn } from "../contexts/AuthContext"
 
 import { api } from "../services/api"
 import { faceApi } from "../services/faceApi"
+
+type setUser = React.Dispatch<React.SetStateAction<User | null>>
 
 async function getFaces(form: FormData) {
   const getFaceResponse = await faceApi.post("/getface", form, {
@@ -16,11 +20,11 @@ async function getFaces(form: FormData) {
   return faces
 }
 
-export async function signUp(form: FormData) {
+export async function signUp(form: FormData, setUser: setUser) {
   const faces = await getFaces(form)
-  const response = await api.put("/userface", { faces })
+  const { data } = await api.put("/userface", { faces })
 
-  console.log(response.data)
+  setUser(data.user)
 }
 
 export async function login(

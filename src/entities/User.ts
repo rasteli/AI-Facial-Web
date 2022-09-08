@@ -9,4 +9,5 @@ export interface User {
   gender: string
   nickname: string
   birthDate: string
+  password: string
 }
