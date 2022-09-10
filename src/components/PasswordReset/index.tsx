@@ -57,13 +57,13 @@ export function PasswordReset() {
         <h1>REDEFINIÇÃO DE SENHA</h1>
 
         <form onSubmit={handleFormSubmit}>
-          <label htmlFor="email">NOVA SENHA</label>
+          <label htmlFor="password">NOVA SENHA</label>
           <input
             type="password"
             onChange={e => setPassword(e.target.value)}
             required
           />
-          <label htmlFor="password">REINSERIR NOVA SENHA</label>
+          <label htmlFor="rePassword">REINSERIR NOVA SENHA</label>
           <input
             type="password"
             onChange={e => setRePassword(e.target.value)}
