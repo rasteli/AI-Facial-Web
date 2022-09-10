@@ -3,7 +3,7 @@ import { NavigateFunction } from "react-router-dom"
 
 import { User } from "../entities/User"
 import { Face } from "../entities/Face"
-import { logIn } from "../contexts/AuthContext"
+import { AuthFunc } from "../contexts/AuthContext"
 
 import { api } from "../services/api"
 import { faceApi } from "../services/faceApi"
@@ -31,7 +31,7 @@ export async function login(
   form: FormData,
   login: string,
   password: string,
-  logIn: logIn,
+  logIn: AuthFunc,
   navigate: NavigateFunction
 ) {
   const compareForm = new FormData()
