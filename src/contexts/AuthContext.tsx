@@ -4,8 +4,7 @@ import { api } from "../services/api"
 import { User } from "../entities/User"
 import { UserPostOrPutPayload } from "../entities/UserPayload"
 
-export type logIn = (payload: UserPostOrPutPayload) => Promise<void>
-export type signUp = (payload: UserPostOrPutPayload) => Promise<void>
+export type AuthFunc = (payload: UserPostOrPutPayload) => Promise<void>
 
 interface AuthProviderProps {
   children: React.ReactNode
@@ -24,11 +23,16 @@ interface AuthContextData {
   user: User | null
   isLoading: boolean
   signOut: () => void
-  logIn: logIn
-  signUp: signUp
+  logIn: AuthFunc
+  signUp: AuthFunc
+  updateUser: AuthFunc
   setUser: React.Dispatch<React.SetStateAction<User | null>>
-  // sendResetEmail: (email: string) => Promise<ResetResponse>
-  // resetPassword: (user_id: string, password: string) => Promise<void>
+  sendResetEmail: (email: string) => Promise<string>
+  resetPassword: (
+    user_id: string,
+    password: string,
+    resetToken: string
+  ) => Promise<void>
 }
 
 const AuthContext = createContext({} as AuthContextData)
@@ -67,50 +71,50 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function authenticateUser(
     route: string,
+    method: "post" | "put",
     payload: UserPostOrPutPayload
   ) {
-    const response = await api.post<AuthResponse>(route, payload)
+    const response = await api[method]<AuthResponse>(route, payload)
 
     const { token, user } = response.data
 
     setUser(user)
-    setTokenToHeaders(token)
-    localStorage.setItem("@IA:token", token)
+
+    if (token) {
+      setTokenToHeaders(token)
+      localStorage.setItem("@IA:token", token)
+    }
   }
 
   async function signUp(payload: UserPostOrPutPayload) {
-    const body = {
-      name: payload.name,
-      nickname: payload.nickname,
-      email: payload.email,
-      password: payload.password,
-      phone: payload.phone,
-      gender: payload.gender,
-      birthDate: payload.birthDate
-    }
-
-    await authenticateUser("/signup", body)
+    await authenticateUser("/signup", "post", payload)
   }
 
   async function logIn(payload: UserPostOrPutPayload) {
-    const body = {
-      name: payload.name,
-      login: payload.login,
-      password: payload.password
-    }
-
-    await authenticateUser("/login", body)
+    await authenticateUser("/login", "post", payload)
   }
 
-  // async function resetPassword(user_id: string, password: string) {
-  //   await authenticateUser("/reset-password", { user_id, password })
-  // }
+  async function updateUser(payload: UserPostOrPutPayload) {
+    await authenticateUser("/update", "put", payload)
+  }
 
-  // async function sendResetEmail(email: string) {
-  //   const response = await api.post<ResetResponse>("/send-reset", { email })
+  async function sendResetEmail(email: string) {
+    const response = await api.post<ResetResponse>("/request-reset", { email })
 
-  //   return response.data
-  // }
+    return response.data.message
+  }
+
+  async function resetPassword(
+    user_id: string,
+    password: string,
+    resetToken: string
+  ) {
+    await authenticateUser("/reset-password", "put", {
+      user_id,
+      password,
+      resetToken
+    })
+  }
 
   function signOut() {
     setUser(null)
@@ -123,9 +127,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     logIn,
     signUp,
     signOut,
-    setUser
-    // resetPassword,
-    // sendResetEmail
+    setUser,
+    updateUser,
+    resetPassword,
+    sendResetEmail
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

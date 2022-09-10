@@ -4,51 +4,42 @@ interface Item {
   htmlFor: DefaultItem
   label: string
   inputType: string
-  update: ToUpdate
-  select: boolean
 }
 
 export const items: Item[] = [
   {
+    htmlFor: "name",
+    label: "NOME",
+    inputType: "text"
+  },
+  {
     htmlFor: "nickname",
     label: "APELIDO",
-    inputType: "text",
-    update: { nickname: true },
-    select: false
+    inputType: "text"
   },
   {
     htmlFor: "email",
     label: "EMAIL",
-    inputType: "email",
-    update: { email: true },
-    select: false
+    inputType: "email"
   },
   {
     htmlFor: "password",
     label: "SENHA",
-    inputType: "password",
-    update: { password: true },
-    select: false
+    inputType: "password"
   },
   {
     htmlFor: "phone",
     label: "TELEFONE",
-    inputType: "tel",
-    update: { phone: true },
-    select: false
+    inputType: "tel"
   },
   {
     htmlFor: "birthDate",
     label: "DATA DE NASCIMENTO",
-    inputType: "date",
-    update: { birthDate: true },
-    select: false
+    inputType: "date"
   },
   {
     htmlFor: "gender",
     label: "SEXO",
-    inputType: "select",
-    update: { gender: true },
-    select: true
+    inputType: "select"
   }
 ]

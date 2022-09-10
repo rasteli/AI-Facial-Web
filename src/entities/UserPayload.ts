@@ -1,4 +1,5 @@
 export interface UserPostOrPutPayload {
+  user_id?: string
   name?: string
   email?: string
   phone?: string
@@ -7,8 +8,9 @@ export interface UserPostOrPutPayload {
   nickname?: string
   password?: string
   birthDate?: string
+  resetToken?: string
 }
 
 export interface UserDeletePayload {
-  id: string
+  user_id: string
 }

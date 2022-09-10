@@ -1,5 +1,5 @@
 import { FormEvent, useState, useEffect } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate, useLocation, Link } from "react-router-dom"
 
 import styles from "./styles.module.scss"
 
@@ -56,7 +56,6 @@ export function Login() {
             onChange={e => setLogin(e.target.value)}
             required
           />
-
           <label htmlFor="password">SENHA</label>
           <input
             type="password"
@@ -65,6 +64,10 @@ export function Login() {
           />
 
           <hr />
+
+          <span className={styles.forgotPassword}>
+            <Link to="/requestPassword">Esqueceu a senha?</Link>
+          </span>
 
           <div className={styles.buttons}>
             <button

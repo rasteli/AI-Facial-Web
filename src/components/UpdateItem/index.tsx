@@ -2,11 +2,12 @@ import { useState } from "react"
 import Select from "react-select"
 
 import styles from "./styles.module.scss"
-
-import { Buttons } from "../Buttons"
 import { User } from "../../entities/User"
 
-export interface ToUpdate {
+import { Buttons } from "../Buttons"
+import { useAuth } from "../../contexts/AuthContext"
+
+export interface IsToUpdate {
   name?: boolean
   email?: boolean
   phone?: boolean
@@ -14,6 +15,16 @@ export interface ToUpdate {
   nickname?: boolean
   password?: boolean
   birthDate?: boolean
+}
+
+export interface ToUpdate {
+  name?: string
+  email?: string
+  phone?: string
+  gender?: string
+  nickname?: string
+  password?: string
+  birthDate?: string
 }
 
 export type DefaultItem =
@@ -32,8 +43,6 @@ interface UpdateItemProps {
   inputType: string
   user: User | null
   defaultItem: DefaultItem
-  update: ToUpdate
-  select: boolean
 }
 
 export function UpdateItem({
@@ -41,11 +50,11 @@ export function UpdateItem({
   label,
   inputType,
   user,
-  defaultItem,
-  update,
-  select
+  defaultItem
 }: UpdateItemProps) {
-  const [toUpdate, setToUpdate] = useState<ToUpdate>({
+  const { updateUser } = useAuth()
+
+  const [isToUpdate, setIsToUpdate] = useState<IsToUpdate>({
     name: false,
     email: false,
     phone: false,
@@ -55,37 +64,59 @@ export function UpdateItem({
     birthDate: false
   })
 
+  const [toUpdate, setToUpdate] = useState<ToUpdate>({
+    name: "",
+    email: "",
+    phone: "",
+    gender: "",
+    nickname: "",
+    password: "",
+    birthDate: ""
+  })
+
   return (
     <li className={styles.container}>
       {user && (
         <>
           <div className={styles.inputBlock}>
             <label htmlFor={htmlFor}>{label}</label>
-            {select ? (
+            {inputType === "select" ? (
               <Select
                 defaultValue={{ value: user?.gender, label: user?.gender }}
-                isDisabled={!toUpdate[defaultItem]}
-                // className={styles.reactSelect}
-                // onChange={e => setGender(e?.value)}
+                isDisabled={!isToUpdate[defaultItem]}
                 options={[
                   { value: "Masculino", label: "Masculino" },
                   { value: "Feminino", label: "Feminino" }
                 ]}
+                onChange={e =>
+                  setToUpdate(prevState => {
+                    return { ...prevState, gender: e?.value }
+                  })
+                }
               />
             ) : (
               <input
                 type={inputType}
                 defaultValue={user[defaultItem]}
-                disabled={!toUpdate[defaultItem]}
+                disabled={!isToUpdate[defaultItem]}
+                onChange={e =>
+                  setToUpdate(prevState => {
+                    return {
+                      ...prevState,
+                      [defaultItem]: e.target.value
+                    }
+                  })
+                }
                 required
               />
             )}
           </div>
           <Buttons
             defaultItem={defaultItem}
-            update={update}
             toUpdate={toUpdate}
-            setToUpdate={setToUpdate}
+            isToUpdate={isToUpdate}
+            setIsToUpdate={setIsToUpdate}
+            updateUser={updateUser}
           />
         </>
       )}

@@ -11,7 +11,7 @@ import { faceApi } from "../services/faceApi"
 type setUser = React.Dispatch<React.SetStateAction<User | null>>
 
 async function getFaces(form: FormData) {
-  const getFaceResponse = await faceApi.post("/getface", form, {
+  const getFaceResponse = await faceApi.post("/faces", form, {
     headers: { "Content-Type": "multipart/form-data" }
   })
 

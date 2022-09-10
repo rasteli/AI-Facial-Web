@@ -33,6 +33,8 @@ export function Webcam() {
   )
 
   let qtyImg = 0
+  const width = 320
+  const height = 240
   var interval: number
 
   const form = new FormData()
@@ -75,7 +77,7 @@ export function Webcam() {
   async function getVideo() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: 300 }
+        video: { width, height }
       })
 
       // Permission granted
@@ -83,16 +85,13 @@ export function Webcam() {
 
       video.srcObject = stream
       video.play()
-    } catch (error: any) {
+    } catch (error) {
       // Permission denied
-      alert(error.message)
+      console.error(error)
     }
   }
 
   function paintToCanvas() {
-    const width = 320
-    const height = 240
-
     const video = videoRef.current as HTMLVideoElement
     const canvas = canvasRef.current as HTMLCanvasElement
     const ctx = canvas.getContext("2d") as CanvasRenderingContext2D

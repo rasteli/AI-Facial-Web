@@ -1,30 +1,39 @@
 import styles from "./styles.module.scss"
-import { DefaultItem, ToUpdate } from "../UpdateItem"
+import { DefaultItem, IsToUpdate, ToUpdate } from "../UpdateItem"
+import { AuthFunc } from "../../contexts/AuthContext"
 
 interface ButtonsProps {
-  update: ToUpdate
   defaultItem: DefaultItem
+  isToUpdate: IsToUpdate
   toUpdate: ToUpdate
-  setToUpdate: React.Dispatch<React.SetStateAction<ToUpdate>>
+  updateUser: AuthFunc
+  setIsToUpdate: React.Dispatch<React.SetStateAction<IsToUpdate>>
 }
 
 export function Buttons({
   defaultItem,
-  update,
+  isToUpdate,
   toUpdate,
-  setToUpdate
+  setIsToUpdate,
+  updateUser
 }: ButtonsProps) {
-  return toUpdate[defaultItem] ? (
-    <button className={styles.saveBTN}>SALVAR</button>
+  function toggleIsToUpdate() {
+    setIsToUpdate(prevState => {
+      return { ...prevState, [defaultItem]: !prevState[defaultItem] }
+    })
+  }
+
+  function handleSave() {
+    updateUser(toUpdate)
+    toggleIsToUpdate()
+  }
+
+  return isToUpdate[defaultItem] ? (
+    <button className={styles.saveBTN} onClick={handleSave}>
+      SALVAR
+    </button>
   ) : (
-    <button
-      className={styles.updateBTN}
-      onClick={() =>
-        setToUpdate(toUpdate => {
-          return { ...toUpdate, ...update }
-        })
-      }
-    >
+    <button className={styles.updateBTN} onClick={toggleIsToUpdate}>
       ALTERAR
     </button>
   )

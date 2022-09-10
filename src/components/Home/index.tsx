@@ -18,8 +18,6 @@ export function Home() {
             key={index}
             user={user}
             label={item.label}
-            update={item.update}
-            select={item.select}
             htmlFor={item.htmlFor}
             inputType={item.inputType}
             defaultItem={item.htmlFor}

@@ -3,6 +3,8 @@
 * {
   margin: 0;
   padding: 0;
+  scrollbar-width: auto;
+  scrollbar-color: #bd93f9 #ffffff;
 }
 
 body {
@@ -10,12 +12,11 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-/* ===== Scrollbar CSS ===== */
-/* Firefox */
-* {
-  scrollbar-width: auto;
-  scrollbar-color: #bd93f9 #ffffff;
+a {
+  text-decoration: none;
 }
+
+/* ===== Scrollbar CSS ===== */
 
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {

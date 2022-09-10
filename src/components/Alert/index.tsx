@@ -1,9 +1,11 @@
 import { useEffect } from "react"
 import styles from "./styles.module.scss"
 
+export type Variant = "success" | "danger" | "info"
+
 interface AlertProps {
   message: string
-  variant: "success" | "danger" | "info"
+  variant: Variant
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 

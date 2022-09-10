@@ -4,7 +4,9 @@ import { Home } from "./components/Home"
 import { Login } from "./components/Login"
 import { Webcam } from "./components/Webcam"
 import { PrivateRoute } from "./components/PrivateRoute"
+import { PasswordReset } from "./components/PasswordReset"
 import { CreateUserForm } from "./components/CreateUserForm"
+import { RequestPasswordReset } from "./components/RequestPasswordReset"
 
 export function AppRoutes() {
   return (
@@ -21,6 +23,8 @@ export function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/webcam" element={<Webcam />} />
         <Route path="/signup" element={<CreateUserForm />} />
+        <Route path="/passwordReset" element={<PasswordReset />} />
+        <Route path="/requestPassword" element={<RequestPasswordReset />} />
       </Routes>
     </BrowserRouter>
   )
