@@ -20,11 +20,39 @@ export function AppRoutes() {
             </DynamicRoute>
           }
         />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            <DynamicRoute type="public">
+              <Login />
+            </DynamicRoute>
+          }
+        />
         <Route path="/webcam" element={<Webcam />} />
-        <Route path="/signup" element={<CreateUserForm />} />
-        <Route path="/passwordReset" element={<PasswordReset />} />
-        <Route path="/requestPassword" element={<RequestPasswordReset />} />
+        <Route
+          path="/signup"
+          element={
+            <DynamicRoute type="public">
+              <CreateUserForm />
+            </DynamicRoute>
+          }
+        />
+        <Route
+          path="/passwordReset"
+          element={
+            <DynamicRoute type="public">
+              <PasswordReset />
+            </DynamicRoute>
+          }
+        />
+        <Route
+          path="/requestPassword"
+          element={
+            <DynamicRoute type="public">
+              <RequestPasswordReset />
+            </DynamicRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   )
