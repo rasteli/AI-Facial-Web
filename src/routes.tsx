@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { Home } from "./components/Home"
 import { Login } from "./components/Login"
 import { Webcam } from "./components/Webcam"
-import { PrivateRoute } from "./components/PrivateRoute"
+import { DynamicRoute } from "./components/DynamicRoute"
 import { PasswordReset } from "./components/PasswordReset"
 import { CreateUserForm } from "./components/CreateUserForm"
 import { RequestPasswordReset } from "./components/RequestPasswordReset"
@@ -15,16 +15,44 @@ export function AppRoutes() {
         <Route
           path="/"
           element={
-            <PrivateRoute>
+            <DynamicRoute type="protected">
               <Home />
-            </PrivateRoute>
+            </DynamicRoute>
           }
         />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            <DynamicRoute type="public">
+              <Login />
+            </DynamicRoute>
+          }
+        />
         <Route path="/webcam" element={<Webcam />} />
-        <Route path="/signup" element={<CreateUserForm />} />
-        <Route path="/passwordReset" element={<PasswordReset />} />
-        <Route path="/requestPassword" element={<RequestPasswordReset />} />
+        <Route
+          path="/signup"
+          element={
+            <DynamicRoute type="public">
+              <CreateUserForm />
+            </DynamicRoute>
+          }
+        />
+        <Route
+          path="/passwordReset"
+          element={
+            <DynamicRoute type="public">
+              <PasswordReset />
+            </DynamicRoute>
+          }
+        />
+        <Route
+          path="/requestPassword"
+          element={
+            <DynamicRoute type="public">
+              <RequestPasswordReset />
+            </DynamicRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   )
