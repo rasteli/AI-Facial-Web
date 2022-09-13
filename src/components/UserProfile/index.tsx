@@ -2,7 +2,7 @@ import { UpdateItem } from "../UpdateItem"
 import { items } from "../../utils/homeItems"
 import { useAuth } from "../../contexts/AuthContext"
 
-export function Home() {
+export function UserProfile() {
   const { user, signOut } = useAuth()
 
   return (

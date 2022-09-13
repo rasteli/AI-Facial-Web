@@ -129,7 +129,7 @@ export function Webcam() {
           stopWebcam()
           setIntervalDone(true)
 
-          navigate("/", { replace: true })
+          navigate("/profile", { replace: true })
         } else if (qtyImg < NUMBER_OF_PHOTOS) {
           takePhoto(form)
         }

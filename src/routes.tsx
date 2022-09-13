@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
-import { Home } from "./components/Home"
+import { UserProfile } from "./components/UserProfile"
 import { Login } from "./components/Login"
 import { Webcam } from "./components/Webcam"
 import { DynamicRoute } from "./components/DynamicRoute"
@@ -13,10 +13,10 @@ export function AppRoutes() {
     <BrowserRouter>
       <Routes>
         <Route
-          path="/"
+          path="/profile"
           element={
             <DynamicRoute type="protected">
-              <Home />
+              <UserProfile />
             </DynamicRoute>
           }
         />
