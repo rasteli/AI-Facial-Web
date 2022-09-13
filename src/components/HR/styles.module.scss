@@ -1,0 +1,16 @@
+.hr {
+  position: relative;
+
+  &::after {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+
+    content: "";
+
+    width: 70%;
+    height: 2px;
+
+    background: linear-gradient(90deg, #3c5dfe, #6eb0fc, transparent);
+  }
+}

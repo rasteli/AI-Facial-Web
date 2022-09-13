@@ -4,7 +4,6 @@ import Select from "react-select"
 import styles from "./styles.module.scss"
 import { User } from "../../entities/User"
 
-import { Buttons } from "../Buttons"
 import { useAuth } from "../../contexts/AuthContext"
 
 export interface IsToUpdate {
@@ -74,6 +73,12 @@ export function UpdateItem({
     birthDate: ""
   })
 
+  function toggleIsToUpdate(toggle: boolean) {
+    setIsToUpdate(prevState => {
+      return { ...prevState, [defaultItem]: toggle }
+    })
+  }
+
   return (
     <li className={styles.container}>
       {user && (
@@ -96,9 +101,12 @@ export function UpdateItem({
               />
             ) : (
               <input
+                required
                 type={inputType}
                 defaultValue={user[defaultItem]}
-                disabled={!isToUpdate[defaultItem]}
+                readOnly={!isToUpdate[defaultItem]}
+                onClick={() => toggleIsToUpdate(true)}
+                onBlur={() => toggleIsToUpdate(false)}
                 onChange={e =>
                   setToUpdate(prevState => {
                     return {
@@ -107,17 +115,9 @@ export function UpdateItem({
                     }
                   })
                 }
-                required
               />
             )}
           </div>
-          <Buttons
-            defaultItem={defaultItem}
-            toUpdate={toUpdate}
-            isToUpdate={isToUpdate}
-            setIsToUpdate={setIsToUpdate}
-            updateUser={updateUser}
-          />
         </>
       )}
     </li>

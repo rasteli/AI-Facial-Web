@@ -1,0 +1,17 @@
+.container {
+  header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    color: #fbfffb;
+
+    span {
+      color: #6eb0fc;
+    }
+  }
+
+  ul {
+    margin-top: 50px;
+  }
+}

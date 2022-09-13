@@ -19,11 +19,15 @@
       font-weight: 700;
       font-size: 14px;
       margin-bottom: 5px;
+      color: #fbfffb;
     }
 
     input {
+      cursor: text;
+
       border: 0;
       outline: 0;
+      color: #fbfffb;
 
       padding: 10px;
       font-size: 16px;
@@ -31,11 +35,15 @@
 
       min-width: 270px;
       border-radius: 5px;
-      background-color: #fff;
-      border: 1px solid #d3d3d3;
+      background-color: #262730;
+      border: 1px solid #fbfffb;
 
-      &:focus {
-        outline: #2684ff solid 2px;
+      transition: all 150ms;
+
+      &:read-only {
+        cursor: pointer;
+        color: #979797;
+        border-color: #979797;
       }
     }
   }
