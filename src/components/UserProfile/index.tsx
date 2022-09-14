@@ -1,13 +1,27 @@
 import styles from "./styles.module.scss"
-import userAvatar from "../../assets/user.png"
+import userAvatar from "../../assets/user.svg"
+import logOut from "../../assets/logout.svg"
 
 import { HR } from "../HR"
 import { UpdateItem } from "../UpdateItem"
 import { items } from "../../utils/homeItems"
+
 import { useAuth } from "../../contexts/AuthContext"
+import {
+  useUpdate,
+  defaultToUpdate,
+  defaultIsToUpdate
+} from "../../contexts/UpdateContext"
 
 export function UserProfile() {
-  const { user, signOut } = useAuth()
+  const { user, signOut, updateUser } = useAuth()
+  const { toUpdate, setToUpdate, setIsToUpdate } = useUpdate()
+
+  async function handleUpdate() {
+    await updateUser(toUpdate)
+    setToUpdate(defaultToUpdate)
+    setIsToUpdate(defaultIsToUpdate)
+  }
 
   return (
     <div className={styles.container}>
@@ -21,6 +35,9 @@ export function UserProfile() {
             ID: <span>{user?.id}</span>
           </h5>
         </div>
+        <button className={styles.logOut} onClick={signOut}>
+          <img src={logOut} alt="log out" />
+        </button>
       </header>
 
       <HR />
@@ -37,7 +54,16 @@ export function UserProfile() {
           />
         ))}
       </ul>
-      <button onClick={signOut}>Sair</button>
+
+      <button
+        className={styles.save}
+        onClick={handleUpdate}
+        disabled={
+          !Object.entries(toUpdate).some(([, value]) => value.length > 0)
+        }
+      >
+        SALVAR
+      </button>
     </div>
   )
 }

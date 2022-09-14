@@ -1,30 +1,10 @@
-import { useState } from "react"
 import Select from "react-select"
 
 import styles from "./styles.module.scss"
 import { User } from "../../entities/User"
 
-import { useAuth } from "../../contexts/AuthContext"
-
-export interface IsToUpdate {
-  name?: boolean
-  email?: boolean
-  phone?: boolean
-  gender?: boolean
-  nickname?: boolean
-  password?: boolean
-  birthDate?: boolean
-}
-
-export interface ToUpdate {
-  name?: string
-  email?: string
-  phone?: string
-  gender?: string
-  nickname?: string
-  password?: string
-  birthDate?: string
-}
+import { useUpdate } from "../../contexts/UpdateContext"
+import { customStyles, options } from "../../utils/reactSelect"
 
 export type DefaultItem =
   | "name"
@@ -51,27 +31,7 @@ export function UpdateItem({
   user,
   defaultItem
 }: UpdateItemProps) {
-  const { updateUser } = useAuth()
-
-  const [isToUpdate, setIsToUpdate] = useState<IsToUpdate>({
-    name: false,
-    email: false,
-    phone: false,
-    gender: false,
-    nickname: false,
-    password: false,
-    birthDate: false
-  })
-
-  const [toUpdate, setToUpdate] = useState<ToUpdate>({
-    name: "",
-    email: "",
-    phone: "",
-    gender: "",
-    nickname: "",
-    password: "",
-    birthDate: ""
-  })
+  const { isToUpdate, setIsToUpdate, setToUpdate } = useUpdate()
 
   function toggleIsToUpdate(toggle: boolean) {
     setIsToUpdate(prevState => {
@@ -86,19 +46,26 @@ export function UpdateItem({
           <div className={styles.inputBlock}>
             <label htmlFor={htmlFor}>{label}</label>
             {inputType === "select" ? (
-              <Select
-                defaultValue={{ value: user?.gender, label: user?.gender }}
-                isDisabled={!isToUpdate[defaultItem]}
-                options={[
-                  { value: "Masculino", label: "Masculino" },
-                  { value: "Feminino", label: "Feminino" }
-                ]}
-                onChange={e =>
-                  setToUpdate(prevState => {
-                    return { ...prevState, gender: e?.value }
-                  })
-                }
-              />
+              <>
+                <Select
+                  defaultValue={{ value: user?.gender, label: user?.gender }}
+                  isDisabled={!isToUpdate[defaultItem]}
+                  onBlur={() => toggleIsToUpdate(false)}
+                  styles={customStyles}
+                  options={options}
+                  onChange={e =>
+                    setToUpdate(prevState => {
+                      return { ...prevState, gender: e?.value }
+                    })
+                  }
+                />
+                {!isToUpdate[defaultItem] && (
+                  <div
+                    className={styles.selectOverlay}
+                    onClick={() => toggleIsToUpdate(true)}
+                  ></div>
+                )}
+              </>
             ) : (
               <input
                 required
