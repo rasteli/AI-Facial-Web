@@ -29,7 +29,11 @@ export const customStyles: SelectStyles = {
   },
 
   control: (provided, state) => {
-    const borderColor = state.isDisabled ? "#979797" : "#3c5dfe"
+    const borderColor = state.isDisabled
+      ? "#979797"
+      : state.isFocused
+      ? "#3c5dfe"
+      : "#fbfffb"
 
     return {
       ...provided,

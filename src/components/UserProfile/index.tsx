@@ -2,9 +2,9 @@ import styles from "./styles.module.scss"
 import userAvatar from "../../assets/user.svg"
 import logOut from "../../assets/logout.svg"
 
-import { HR } from "../HR"
 import { UpdateItem } from "../UpdateItem"
 import { items } from "../../utils/homeItems"
+import { useViewport } from "../../hooks/useViewport"
 
 import { useAuth } from "../../contexts/AuthContext"
 import {
@@ -14,6 +14,7 @@ import {
 } from "../../contexts/UpdateContext"
 
 export function UserProfile() {
+  const { aboveThreshold } = useViewport(540)
   const { user, signOut, updateUser } = useAuth()
   const { toUpdate, setToUpdate, setIsToUpdate } = useUpdate()
 
@@ -31,16 +32,18 @@ export function UserProfile() {
           <h1>
             Perfil do usuário: <span>{user?.name}</span>
           </h1>
-          <h5>
-            ID: <span>{user?.id}</span>
-          </h5>
+          {aboveThreshold && (
+            <h5>
+              ID: <span>{user?.id}</span>
+            </h5>
+          )}
         </div>
         <button className={styles.logOut} onClick={signOut}>
           <img src={logOut} alt="log out" />
         </button>
       </header>
 
-      <HR />
+      <div className={styles.headerHR} />
 
       <ul>
         {items.map((item, index) => (

@@ -4,13 +4,17 @@
   &::after {
     position: absolute;
     top: 0;
-    left: 20px;
+    left: 15px;
 
     content: "";
 
-    width: 70%;
-    height: 2px;
+    width: 95%;
+    height: 1px;
 
-    background: linear-gradient(90deg, #3c5dfe, #6eb0fc, transparent);
+    background: linear-gradient(90deg, #6eb0fc, #3c5dfe, #6eb0fc);
+
+    @media (max-width: 540px) {
+      width: 92%;
+    }
   }
 }

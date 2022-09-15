@@ -3,7 +3,9 @@ import { useNavigate, useLocation, Link } from "react-router-dom"
 
 import styles from "./styles.module.scss"
 
+import { HR } from "../HR"
 import { Alert } from "../Alert"
+import { useViewport } from "../../hooks/useViewport"
 
 type LocationState = {
   error: boolean
@@ -13,6 +15,7 @@ type LocationState = {
 export function Login() {
   const location = useLocation()
   const navigate = useNavigate()
+  const { aboveThreshold } = useViewport(540)
 
   const [login, setLogin] = useState("")
   const [password, setPassword] = useState("")
@@ -41,13 +44,15 @@ export function Login() {
   }
 
   return (
-    <main className={styles.container}>
+    <div className={styles.container}>
       {isOpen && (
         <Alert setIsOpen={setIsOpen} message={alertMessage} variant="danger" />
       )}
 
-      <div className={styles.innerContainer}>
-        <h1>ENTRE EM SUA CONTA</h1>
+      {aboveThreshold && <div className={styles.headerHR} />}
+
+      <main className={styles.innerContainer}>
+        <h1>ENTRE NA SUA CONTA</h1>
 
         <form onSubmit={handleFormSubmit}>
           <label htmlFor="email">EMAIL OU APELIDO</label>
@@ -56,6 +61,9 @@ export function Login() {
             onChange={e => setLogin(e.target.value)}
             required
           />
+
+          <HR />
+
           <label htmlFor="password">SENHA</label>
           <input
             type="password"
@@ -63,7 +71,7 @@ export function Login() {
             required
           />
 
-          <hr />
+          <HR />
 
           <span className={styles.forgotPassword}>
             <Link to="/requestPassword">Esqueceu a senha?</Link>
@@ -81,7 +89,7 @@ export function Login() {
             <button type="submit">LOGIN</button>
           </div>
         </form>
-      </div>
-    </main>
+      </main>
+    </div>
   )
 }

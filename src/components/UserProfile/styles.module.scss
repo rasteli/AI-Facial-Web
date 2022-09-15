@@ -1,4 +1,21 @@
 .container {
+  .headerHR {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 25px;
+
+      content: "";
+
+      width: 70%;
+      height: 2px;
+
+      background: linear-gradient(90deg, #3c5dfe, #6eb0fc, transparent);
+    }
+  }
+
   header {
     display: flex;
     flex-direction: row;
@@ -61,8 +78,8 @@
       background: #3c5dfe;
     }
 
-    @media (max-width: 1600px) {
-      min-width: 200px;
+    @media (max-width: 540px) {
+      width: 91%;
     }
   }
 }
