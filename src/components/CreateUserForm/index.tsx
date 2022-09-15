@@ -1,15 +1,21 @@
 import { FormEvent, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import Select from "react-select"
 
 import styles from "./styles.module.scss"
+import form from "../../assets/form.png"
 
+import { HR } from "../HR"
 import { Alert } from "../Alert"
+
 import { useAuth } from "../../contexts/AuthContext"
+import { useViewport } from "../../hooks/useViewport"
+import { customStyles } from "../../utils/reactSelect"
 
 export function CreateUserForm() {
   const { signUp } = useAuth()
   const navigate = useNavigate()
+  const { aboveThreshold } = useViewport(540)
 
   const [isOpen, setIsOpen] = useState(false)
   const [alertMessage, setAlertMessage] = useState("")
@@ -48,29 +54,39 @@ export function CreateUserForm() {
   }
 
   return (
-    <main className={styles.container}>
+    <div className={styles.container}>
       {isOpen && (
         <Alert setIsOpen={setIsOpen} message={alertMessage} variant="danger" />
       )}
 
-      <div className={styles.innerContainer}>
+      {aboveThreshold && <div className={styles.headerHR} />}
+
+      <main className={styles.innerContainer}>
         <h1>CADASTRE SUAS INFORMAÇÕES</h1>
 
         <form onSubmit={handleFormSubmit}>
           <label htmlFor="name">NOME</label>
           <input type="text" onChange={e => setName(e.target.value)} required />
+
+          <HR />
+
           <label htmlFor="nickname">APELIDO</label>
           <input
             type="text"
             onChange={e => setNickname(e.target.value)}
             required
           />
+
+          <HR />
+
           <label htmlFor="email">EMAIL</label>
           <input
             type="email"
             onChange={e => setEmail(e.target.value)}
             required
           />
+
+          <HR />
 
           <div className={styles.inputBlock}>
             <div className={styles.inputInBlock}>
@@ -81,6 +97,9 @@ export function CreateUserForm() {
                 required
               />
             </div>
+
+            {!aboveThreshold && <HR />}
+
             <div className={styles.inputInBlock}>
               <label htmlFor="password">CONFRIMAR SENHA</label>
               <input
@@ -91,6 +110,8 @@ export function CreateUserForm() {
             </div>
           </div>
 
+          <HR />
+
           <div className={styles.inputBlock}>
             <div className={styles.inputInBlock}>
               <label htmlFor="phone">TELEFONE</label>
@@ -100,11 +121,15 @@ export function CreateUserForm() {
                 required
               />
             </div>
+
+            {!aboveThreshold && <HR />}
+
             <div className={styles.inputInBlock}>
               <label htmlFor="gender">SEXO</label>
               <Select
                 className={styles.reactSelect}
                 onChange={e => setGender(e?.value)}
+                styles={customStyles}
                 options={[
                   { value: "Masculino", label: "Masculino" },
                   { value: "Feminino", label: "Feminino" }
@@ -113,6 +138,8 @@ export function CreateUserForm() {
             </div>
           </div>
 
+          <HR />
+
           <label htmlFor="date">DATA DE NASCIMENTO</label>
           <input
             type="date"
@@ -120,7 +147,7 @@ export function CreateUserForm() {
             required
           />
 
-          <hr />
+          <HR />
 
           <div className={styles.buttons}>
             <button
@@ -134,7 +161,13 @@ export function CreateUserForm() {
             <button type="submit">CADASTRAR</button>
           </div>
         </form>
-      </div>
-    </main>
+      </main>
+
+      {aboveThreshold && (
+        <aside>
+          <img src={form} alt="" />
+        </aside>
+      )}
+    </div>
   )
 }

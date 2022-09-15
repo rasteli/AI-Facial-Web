@@ -1,18 +1,51 @@
+import styles from "./styles.module.scss"
+import userAvatar from "../../assets/user.svg"
+import logOut from "../../assets/logout.svg"
+
 import { UpdateItem } from "../UpdateItem"
 import { items } from "../../utils/homeItems"
+import { useViewport } from "../../hooks/useViewport"
+
 import { useAuth } from "../../contexts/AuthContext"
+import {
+  useUpdate,
+  defaultToUpdate,
+  defaultIsToUpdate
+} from "../../contexts/UpdateContext"
 
 export function UserProfile() {
-  const { user, signOut } = useAuth()
+  const { aboveThreshold } = useViewport(540)
+  const { user, signOut, updateUser } = useAuth()
+  const { toUpdate, setToUpdate, setIsToUpdate } = useUpdate()
+
+  async function handleUpdate() {
+    await updateUser(toUpdate)
+    setToUpdate(defaultToUpdate)
+    setIsToUpdate(defaultIsToUpdate)
+  }
 
   return (
-    <div>
-      <h1>Dados do usuário: {user?.name}</h1>
+    <div className={styles.container}>
+      <header>
+        <img src={userAvatar} alt="user avatar" />
+        <div className={styles.user}>
+          <h1>
+            Perfil do usuário: <span>{user?.name}</span>
+          </h1>
+          {aboveThreshold && (
+            <h5>
+              ID: <span>{user?.id}</span>
+            </h5>
+          )}
+        </div>
+        <button className={styles.logOut} onClick={signOut}>
+          <img src={logOut} alt="log out" />
+        </button>
+      </header>
+
+      <div className={styles.headerHR} />
+
       <ul>
-        <li>
-          <label htmlFor="">ID</label>
-          <input type="text" defaultValue={user?.id} disabled />
-        </li>
         {items.map((item, index) => (
           <UpdateItem
             key={index}
@@ -24,7 +57,16 @@ export function UserProfile() {
           />
         ))}
       </ul>
-      <button onClick={signOut}>Sair</button>
+
+      <button
+        className={styles.save}
+        onClick={handleUpdate}
+        disabled={
+          !Object.entries(toUpdate).some(([, value]) => value.length > 0)
+        }
+      >
+        SALVAR
+      </button>
     </div>
   )
 }
