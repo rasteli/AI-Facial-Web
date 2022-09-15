@@ -95,7 +95,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function updateUser(payload: UserPostOrPutPayload) {
-    await authenticateUser("/update", "put", payload)
+    await authenticateUser("/users", "put", payload)
   }
 
   async function sendResetEmail(email: string) {

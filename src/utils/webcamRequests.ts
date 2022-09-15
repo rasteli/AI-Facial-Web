@@ -22,7 +22,7 @@ async function getFaces(form: FormData) {
 
 export async function signUp(form: FormData, setUser: setUser) {
   const faces = await getFaces(form)
-  const { data } = await api.put("/userface", { faces })
+  const { data } = await api.put("/userfaces", { faces })
 
   setUser(data.user)
 }
