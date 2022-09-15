@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
+import { Home } from "./components/Home"
 import { UserProfile } from "./components/UserProfile"
 import { Login } from "./components/Login"
 import { Webcam } from "./components/Webcam"
@@ -12,6 +13,14 @@ export function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route
+          path="/"
+          element={
+            <DynamicRoute type="public">
+              <Home />
+            </DynamicRoute>
+          }
+        />
         <Route
           path="/profile"
           element={
