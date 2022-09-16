@@ -11,20 +11,21 @@
     }
 
     .imgBox {
-        width: 75px;
+        width: 120px;
         height: 100%;
         background-color: beige;
     }
 
-    .hBBox {
+    nav {
         display: flex;
         gap: 20px;
         align-items: center;
 
-        button {
+        button { // <--- Eu quero *muito* tacar um "border radius" nesses botões.
             min-width: 180px;
             min-height: 45px;
             color: #ffffff;
+            font-size: 1.5rem;
         }
 
         button[id="login"] {

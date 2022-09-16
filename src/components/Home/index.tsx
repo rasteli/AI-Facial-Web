@@ -8,11 +8,11 @@ export function Home() {
     return(
         <div className={styles.container}>
             {/* Header. */}
-            <div className={styles.header}> 
+            <header className={styles.header}> 
                 {/* Essa div vai conter a logo. Por enquanto é um cubo bege para mexer com o display */}
                 <div className={styles.imgBox}></div>
                 {/* Essa div segura os dois botões */}
-                <div className={styles.hBBox}>
+                <nav>
                     <button
                         id="login"
                         type="button"
@@ -31,8 +31,13 @@ export function Home() {
                     >
                         CADASTRO
                     </button>
-                </div>
-            </div>
+                </nav>
+            </header>
+
+            <main>
+                
+            </main>
+            
         </div>
     )
 }
