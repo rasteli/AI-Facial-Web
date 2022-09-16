@@ -6,11 +6,12 @@ export function Home() {
     const navigate = useNavigate();
 
     return(
+        // Pensando em tirar essa div depois.
         <div className={styles.container}>
             {/* Header. */}
             <header className={styles.header}> 
                 {/* Essa div vai conter a logo. Por enquanto é um cubo bege para mexer com o display */}
-                <div className={styles.imgBox}></div>
+                <div className={styles.logoBox}></div>
                 {/* Essa div segura os dois botões */}
                 <nav>
                     <button
@@ -33,11 +34,60 @@ export function Home() {
                     </button>
                 </nav>
             </header>
-
+            {/* Parte principal do site */}
             <main>
+                {/* Usando uma section para cada coisinha */}
+                <section>
+                    {/* Div p/conter a imagem do Guidelli */}
+                    <div className={styles.imgBox}></div>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                        Rem perspiciatis pariatur porro corrupti dignissimos corporis 
+                        nihil illum! Atque, sapiente quas sequi, voluptas 
+                        reprehenderit autem non laudantium beatae excepturi ad esse 
+                        vitae pariatur error aliquid aut veritatis! Reiciendis, cumque 
+                        autem eum mollitia numquam iure quae laboriosam similique 
+                        optio ducimus aspernatur illo!
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                        Rem perspiciatis pariatur porro corrupti dignissimos corporis 
+                        nihil illum! Atque, sapiente quas sequi, voluptas 
+                        reprehenderit autem non laudantium beatae excepturi ad esse 
+                        vitae pariatur error aliquid aut veritatis! Reiciendis, cum</p>
+                </section>
                 
+                {/* Essa div vai conter a imagem entre as duas secções */}
+                <div className={styles.decImgBox}></div>
+
+                <section>
+                    {/* Div p/conter a imagem do Guidelli */}
+                    <div className={styles.imgBox}></div>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                        Rem perspiciatis pariatur porro corrupti dignissimos corporis 
+                        nihil illum! Atque, sapiente quas sequi, voluptas 
+                        reprehenderit autem non laudantium beatae excepturi ad esse 
+                        vitae pariatur error aliquid aut veritatis! Reiciendis, cumque 
+                        autem eum mollitia numquam iure quae laboriosam similique 
+                        optio ducimus aspernatur illo!
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                        Rem perspiciatis pariatur porro corrupti dignissimos corporis 
+                        nihil illum! Atque, sapiente quas sequi, voluptas 
+                        reprehenderit autem non laudantium beatae excepturi ad esse 
+                        vitae pariatur error aliquid aut veritatis! Reiciendis, cum</p>
+                </section>
             </main>
             
+            {/* Não é *bem* um footer mas neh. */}
+            <footer>
+                    {/* Esse botão tem que levar a algum lugar ou fazer alguma coisa... */}
+                    <button
+                        id="signup"
+                        type="button"
+                        onClick={() => {
+                            navigate("/", { replace: false })
+                        }}
+                    >
+                        AJUDA
+                    </button>
+            </footer>
         </div>
     )
 }

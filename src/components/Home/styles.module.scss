@@ -10,7 +10,7 @@
         box-sizing: border-box;
     }
 
-    .imgBox {
+    .logoBox {
         width: 120px;
         height: 100%;
         background-color: beige;
@@ -24,7 +24,7 @@
         button { // <--- Eu quero *muito* tacar um "border radius" nesses botões.
             min-width: 180px;
             min-height: 45px;
-            color: #ffffff;
+            color: #FBFFFB;
             font-size: 1.5rem;
         }
 
@@ -33,7 +33,101 @@
         }
 
         button[id="signup"] {
-            background-color: black;
+            background-color: #262730;
         }
+    }
+
+    main {
+        display: grid;
+        max-width: 1200px;
+        margin: 50px auto;
+        gap: 50px;
+    }
+
+    .imgBox {
+        position: relative;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background-color: beige;
+        grid-row: 1/3;
+        align-self: center;
+    }
+
+    .imgBox::after {
+        content: "";
+        background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0), #383838, rgba(255, 0, 0, 0));
+        width: 2px;
+        height: 250px;
+        position: absolute;
+        top: 0px;
+        right: -30px;
+    }
+
+    .decImgBox {
+        position: relative;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: beige;
+        justify-self: center;
+    }
+
+    .decImgBox::before {
+        content: "";
+        background-image: linear-gradient(to right, rgba(255, 0, 0, 0), #3c5cfe7e 30% 70% , rgba(255, 0, 0, 0));
+        width: 520px;
+        height: 2px;
+        position: absolute;
+        top: 39px;
+        right: 80px;
+    }
+
+    .decImgBox::after {
+        content: "";
+        background-image: linear-gradient(to right, rgba(255, 0, 0, 0), #3c5cfe7e 30% 70% , rgba(255, 0, 0, 0) );
+        width: 520px;
+        height: 2px;
+        position: absolute;
+        top: 39px;
+        left: 80px;
+    }
+
+    section {
+        background-color: #262730;
+        display: grid;
+        grid-template-columns: 2fr 5fr;
+        border-radius: 50px;
+
+        p {
+            color: #FBFFFB;
+            grid-column: 2;
+            font-size: 1.2rem;
+            padding: 20px 50px 20px 0px;
+        }
+    }
+
+    footer {
+        position: relative;
+        padding: 20px;
+
+        button {
+            background-color: #FBFFFB;
+            font-size: 1.2rem;
+            padding: 5px 20px;
+            margin-top: 10px;
+            border-radius: 6px;
+            float: right;
+        }
+    }
+
+    footer::before {
+        content: "";
+        background-image: linear-gradient(to right, rgba(255, 0, 0, 0), #3c5cfe7e 30% 70% , rgba(255, 0, 0, 0) );
+        width: 100%;
+        height: 2px;
+        position: absolute;
+        top: 0px;
+        left: 0px;
     }
 }
