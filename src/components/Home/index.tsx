@@ -37,9 +37,9 @@ export function Home() {
             {/* Parte principal do site */}
             <main>
                 {/* Usando uma section para cada coisinha */}
-                <section>
+                <section className={styles.sec1}>
                     {/* Div p/conter a imagem do Guidelli */}
-                    <div className={styles.imgBox}></div>
+                    <div className={styles.imgBox1}></div>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                         Rem perspiciatis pariatur porro corrupti dignissimos corporis 
                         nihil illum! Atque, sapiente quas sequi, voluptas 
@@ -57,9 +57,9 @@ export function Home() {
                 {/* Essa div vai conter a imagem entre as duas secções */}
                 <div className={styles.decImgBox}></div>
 
-                <section>
+                <section className={styles.sec2}>
                     {/* Div p/conter a imagem do Guidelli */}
-                    <div className={styles.imgBox}></div>
+                    <div className={styles.imgBox2}></div>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                         Rem perspiciatis pariatur porro corrupti dignissimos corporis 
                         nihil illum! Atque, sapiente quas sequi, voluptas 
