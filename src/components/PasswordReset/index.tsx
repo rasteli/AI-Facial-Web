@@ -5,9 +5,13 @@ import styles from "./styles.module.scss"
 
 import { Alert } from "../Alert"
 import { useAuth } from "../../contexts/AuthContext"
+import { useViewport } from "../../hooks/useViewport"
+import { getErrorMessage } from "../../utils/getErrorMessage"
 
 export function PasswordReset() {
   const navigate = useNavigate()
+  const { aboveThreshold } = useViewport(540)
+
   const { resetPassword } = useAuth()
   const [searchParams] = useSearchParams()
 
@@ -42,8 +46,10 @@ export function PasswordReset() {
       await resetPassword(userId, password, resetToken)
       navigate("/login", { replace: true })
     } catch (error: any) {
+      const errorMessage = getErrorMessage(error)
+
       setIsOpen(true)
-      setAlertMessage(error.response.data.error)
+      setAlertMessage(errorMessage)
     }
   }
 
@@ -52,6 +58,8 @@ export function PasswordReset() {
       {isOpen && (
         <Alert message={alertMessage} setIsOpen={setIsOpen} variant="danger" />
       )}
+
+      {aboveThreshold && <div className={styles.headerHR} />}
 
       <div className={styles.innerContainer}>
         <h1>REDEFINIÇÃO DE SENHA</h1>
@@ -69,8 +77,6 @@ export function PasswordReset() {
             onChange={e => setRePassword(e.target.value)}
             required
           />
-
-          <hr />
 
           <button type="submit">REDEFINIR SENHA</button>
         </form>

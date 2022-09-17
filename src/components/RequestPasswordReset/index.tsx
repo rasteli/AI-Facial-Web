@@ -4,9 +4,12 @@ import styles from "./styles.module.scss"
 
 import { Alert, Variant } from "../Alert"
 import { useAuth } from "../../contexts/AuthContext"
+import { useViewport } from "../../hooks/useViewport"
+import { getErrorMessage } from "../../utils/getErrorMessage"
 
 export function RequestPasswordReset() {
   const { sendResetEmail } = useAuth()
+  const { aboveThreshold } = useViewport(540)
 
   const [email, setEmail] = useState("")
   const [alertMessage, setAlertMessage] = useState("")
@@ -22,7 +25,9 @@ export function RequestPasswordReset() {
       setAlertMessage(response)
       setVariant("success")
     } catch (error: any) {
-      setAlertMessage(error.response.data.error)
+      const errorMessage = getErrorMessage(error)
+
+      setAlertMessage(errorMessage)
       setVariant("danger")
     }
 
@@ -35,6 +40,8 @@ export function RequestPasswordReset() {
       {isOpen && (
         <Alert message={alertMessage} setIsOpen={setIsOpen} variant={variant} />
       )}
+
+      {aboveThreshold && <div className={styles.headerHR} />}
 
       <div className={styles.innerContainer}>
         <h1>REDEFINIÇÃO DE SENHA</h1>
@@ -49,13 +56,13 @@ export function RequestPasswordReset() {
 
           <label htmlFor="email">EMAIL</label>
           <input
+            id="email"
+            name="email"
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
           />
-
-          <hr />
 
           <button type="submit">ENVIAR EMAIL</button>
         </form>

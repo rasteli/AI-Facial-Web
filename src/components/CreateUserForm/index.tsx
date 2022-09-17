@@ -11,6 +11,7 @@ import { Alert } from "../Alert"
 import { useAuth } from "../../contexts/AuthContext"
 import { useViewport } from "../../hooks/useViewport"
 import { customStyles } from "../../utils/reactSelect"
+import { getErrorMessage } from "../../utils/getErrorMessage"
 
 export function CreateUserForm() {
   const { signUp } = useAuth()
@@ -32,23 +33,31 @@ export function CreateUserForm() {
   async function handleFormSubmit(e: FormEvent) {
     e.preventDefault()
 
-    if (password !== rePassword) return
-
-    const payload = {
-      name,
-      nickname,
-      email,
-      password,
-      phone,
-      gender,
-      birthDate
-    }
-
     try {
+      if (!gender) {
+        throw new Error("Campo de seleção não pode ser vazio.")
+      }
+
+      if (password !== rePassword) {
+        throw new Error("Senhas não coincidem.")
+      }
+
+      const payload = {
+        name,
+        nickname,
+        email,
+        password,
+        phone,
+        gender,
+        birthDate
+      }
+
       await signUp(payload)
-      navigate("/webcam", { replace: false, state: { requestType: "signUp" } })
+      navigate("/webcam", { replace: false, state: { requestType: "signup" } })
     } catch (error: any) {
-      setAlertMessage(error.response.data.error)
+      const errorMessage = getErrorMessage(error)
+
+      setAlertMessage(errorMessage)
       setIsOpen(true)
     }
   }
@@ -66,12 +75,20 @@ export function CreateUserForm() {
 
         <form onSubmit={handleFormSubmit}>
           <label htmlFor="name">NOME</label>
-          <input type="text" onChange={e => setName(e.target.value)} required />
+          <input
+            id="name"
+            name="name"
+            type="text"
+            onChange={e => setName(e.target.value)}
+            required
+          />
 
           <HR />
 
           <label htmlFor="nickname">APELIDO</label>
           <input
+            id="nickname"
+            name="nickname"
             type="text"
             onChange={e => setNickname(e.target.value)}
             required
@@ -81,6 +98,8 @@ export function CreateUserForm() {
 
           <label htmlFor="email">EMAIL</label>
           <input
+            id="email"
+            name="email"
             type="email"
             onChange={e => setEmail(e.target.value)}
             required
@@ -92,6 +111,8 @@ export function CreateUserForm() {
             <div className={styles.inputInBlock}>
               <label htmlFor="password">SENHA</label>
               <input
+                id="password"
+                name="password"
                 type="password"
                 onChange={e => setPassword(e.target.value)}
                 required
@@ -101,8 +122,10 @@ export function CreateUserForm() {
             {!aboveThreshold && <HR />}
 
             <div className={styles.inputInBlock}>
-              <label htmlFor="password">CONFRIMAR SENHA</label>
+              <label htmlFor="re-password">CONFRIMAR SENHA</label>
               <input
+                id="re-password"
+                name="re-password"
                 type="password"
                 onChange={e => setRePassword(e.target.value)}
                 required
@@ -116,6 +139,8 @@ export function CreateUserForm() {
             <div className={styles.inputInBlock}>
               <label htmlFor="phone">TELEFONE</label>
               <input
+                id="phone"
+                name="phone"
                 type="tel"
                 onChange={e => setPhone(e.target.value)}
                 required
@@ -127,6 +152,8 @@ export function CreateUserForm() {
             <div className={styles.inputInBlock}>
               <label htmlFor="gender">SEXO</label>
               <Select
+                id="gender"
+                name="gender"
                 className={styles.reactSelect}
                 onChange={e => setGender(e?.value)}
                 styles={customStyles}
@@ -142,6 +169,8 @@ export function CreateUserForm() {
 
           <label htmlFor="date">DATA DE NASCIMENTO</label>
           <input
+            id="date"
+            name="date"
             type="date"
             onChange={e => setBirthDate(e.target.value)}
             required

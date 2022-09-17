@@ -29,19 +29,19 @@ dialog {
 }
 
 .success {
-  color: #11361a;
+  color: #17181e;
   border: $border #206330;
-  background-color: #50fa7b40;
+  background-color: #50fa7b;
 }
 
 .danger {
-  color: #361212;
-  border: $border #ff5555;
-  background-color: #ff555540;
+  color: #17181e;
+  border: $border #e02626;
+  background-color: #ff5555;
 }
 
 .info {
-  color: #183035;
+  color: #17181e;
   border: $border #56909c;
-  background-color: #8be9fd40;
+  background-color: #8be9fd;
 }

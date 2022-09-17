@@ -7,18 +7,19 @@ import { useAuth } from "../../contexts/AuthContext"
 
 import { detectFace } from "../../utils/detectFace"
 import { signUp, login } from "../../utils/webcamRequests"
+import { getErrorMessage } from "../../utils/getErrorMessage"
 
 type LocationState = {
   login: string
   password: string
-  requestType: "login" | "signUp"
+  requestType: "login" | "signup"
 }
 
 const MIN_PROB_FACE = 50
 const NUMBER_OF_PHOTOS = 4
 
 export function Webcam() {
-  const { logIn, setUser } = useAuth()
+  const { logIn, setUser, user } = useAuth()
 
   const location = useLocation()
   const navigate = useNavigate()
@@ -117,19 +118,27 @@ export function Webcam() {
           console.log(Array.from(form.entries()))
 
           const requests = {
-            signUp: () => signUp(form, setUser),
+            signup: () => signUp(form, setUser, user),
             login: () =>
               login(form, state.login, state.password, logIn, navigate)
           }
 
           const request = requests[state.requestType]
 
-          await request()
+          try {
+            await request()
+            navigate("/profile", { replace: true })
+          } catch (error: any) {
+            const errorMessage = getErrorMessage(error)
 
-          stopWebcam()
-          setIntervalDone(true)
-
-          navigate("/profile", { replace: true })
+            navigate(`/${state.requestType}`, {
+              replace: true,
+              state: { error: true, errorMessage }
+            })
+          } finally {
+            stopWebcam()
+            setIntervalDone(true)
+          }
         } else if (qtyImg < NUMBER_OF_PHOTOS) {
           takePhoto(form)
         }

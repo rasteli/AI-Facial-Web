@@ -38,7 +38,7 @@ export function UserProfile() {
             </h5>
           )}
         </div>
-        <button className={styles.logOut} onClick={signOut}>
+        <button title="Sair" className={styles.logOut} onClick={signOut}>
           <img src={logOut} alt="log out" />
         </button>
       </header>

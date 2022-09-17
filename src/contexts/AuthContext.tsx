@@ -53,7 +53,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setTokenToHeaders(token)
 
         try {
-          const { data } = await api.get<AuthResponse>("/user")
+          const { data } = await api.get<AuthResponse>("/users/id")
 
           setUser(data.user)
         } catch (error) {
@@ -95,7 +95,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function updateUser(payload: UserPostOrPutPayload) {
-    await authenticateUser("/users", "put", payload)
+    await authenticateUser(`/users/${user?.id}`, "put", payload)
   }
 
   async function sendResetEmail(email: string) {
@@ -109,7 +109,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     password: string,
     resetToken: string
   ) {
-    await authenticateUser("/reset-password", "put", {
+    await api.put("/reset-password", {
       user_id,
       password,
       resetToken

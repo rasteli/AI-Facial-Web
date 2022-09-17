@@ -20,9 +20,13 @@ async function getFaces(form: FormData) {
   return faces
 }
 
-export async function signUp(form: FormData, setUser: setUser) {
+export async function signUp(
+  form: FormData,
+  setUser: setUser,
+  user: User | null
+) {
   const faces = await getFaces(form)
-  const { data } = await api.put("/userfaces", { faces })
+  const { data } = await api.put(`/users/${user?.id}/faces`, { faces })
 
   setUser(data.user)
 }
@@ -63,15 +67,6 @@ export async function login(
   const prob = parseInt((probabilities[index] * 100).toFixed(2))
   console.log(`Pessoa: ${names[index]}. Probabilidade de ${prob}%`)
 
-  try {
-    const name = names[index]
-    await logIn({ login, name, password })
-  } catch (error: any) {
-    const errorMessage = error.response.data.error
-
-    navigate("/login", {
-      replace: true,
-      state: { error: true, errorMessage }
-    })
-  }
+  const name = names[index]
+  await logIn({ login, name, password })
 }

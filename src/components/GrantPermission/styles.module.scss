@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 16px;
 
   width: 100vw;
   position: absolute;
@@ -12,36 +13,42 @@
   transform: translate(50%, -50%);
 
   p {
+    color: #fbfffb;
+    font-weight: 600;
     text-align: center;
   }
 
-  .buttons {
-    margin-top: 20px;
+  button {
+    border: 0;
+    border-radius: 8px;
 
-    display: flex;
-    flex-direction: row;
+    margin: 20px;
+    padding: 10px 20px;
+    min-width: 200px;
+
+    font-weight: 700;
+    cursor: pointer;
+
+    color: #f8f8f2;
+    background-color: #282a36;
+
+    background: #3c5dfe;
+    color: #f8f8f8;
+    border: 2px solid #3c5dfe;
+
+    transition: all 150ms;
+
+    &:hover {
+      color: #3c5dfe;
+      background: none;
+    }
+  }
+
+  @media (max-width: 700px) {
+    flex-direction: column;
 
     button {
-      border: 0;
-      border-radius: 8px;
-
-      margin: 20px;
-      padding: 10px 20px;
-      min-width: 200px;
-
-      font-weight: 700;
-      cursor: pointer;
-
-      color: #f8f8f2;
-      background-color: #282a36;
-    }
-
-    @media (max-width: 700px) {
-      flex-direction: column;
-
-      button {
-        margin: 10px;
-      }
+      margin: 10px;
     }
   }
 }

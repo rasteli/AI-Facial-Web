@@ -57,6 +57,8 @@ export function Login() {
         <form onSubmit={handleFormSubmit}>
           <label htmlFor="email">EMAIL OU APELIDO</label>
           <input
+            id="email"
+            name="email"
             type="text"
             onChange={e => setLogin(e.target.value)}
             required
@@ -66,6 +68,8 @@ export function Login() {
 
           <label htmlFor="password">SENHA</label>
           <input
+            id="password"
+            name="password"
             type="password"
             onChange={e => setPassword(e.target.value)}
             required

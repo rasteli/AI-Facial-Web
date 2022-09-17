@@ -11,16 +11,14 @@ export function GrantPermission({ setCanVideo }: GrantPermissionProps) {
         Agora prosseguiremos para o escaneamento do seu rosto para efetivar a
         operação. Pronto?
       </p>
-      <div className={styles.buttons}>
-        <button
-          onClick={() => {
-            setCanVideo(true)
-            localStorage.setItem("canVideo", "true")
-          }}
-        >
-          OK
-        </button>
-      </div>
+      <button
+        onClick={() => {
+          setCanVideo(true)
+          localStorage.setItem("canVideo", "true")
+        }}
+      >
+        OK
+      </button>
     </div>
   )
 }
