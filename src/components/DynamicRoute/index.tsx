@@ -9,7 +9,7 @@ interface DynamicRouteProps {
 // Protected routes are only accessible to authenticated users. On the other hand,
 // routes I called public are only accessible to not-authenticated users.
 // This is because, once a user is logged in — authenticated —, we shoudn't let
-// him go back to the login page, for instance.
+// them go back to pages they would access to become authenticated, since they already are.
 
 export function DynamicRoute({ children, type }: DynamicRouteProps) {
   const { user } = useAuth()
