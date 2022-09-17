@@ -1,163 +1,239 @@
 .container {
-    .header {
-        display: flex;
-        align-content: center;
-        justify-content: space-between;
-        background-color: #6EB0FC;
-        width: 100%;
-        height: 75px;
-        padding: 10px 20px;
-        box-sizing: border-box;
-    }
+  height: 100vh;
+  overflow-x: hidden;
+  background-image: linear-gradient(transparent, #17181e, #000a3d);
+
+  .header {
+    user-select: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    width: 100%;
+    margin: 20px;
+    box-sizing: border-box;
+    background-color: #17181e;
 
     .logoBox {
-        width: 120px;
-        height: 100%;
-        background-color: beige;
+      img {
+        width: 200px;
+      }
     }
 
     nav {
-        display: flex;
-        gap: 20px;
-        align-items: center;
+      display: flex;
+      gap: 20px;
+      align-items: center;
 
-        button { // <--- Eu quero *muito* tacar um "border radius" nesses botões.
-            min-width: 180px;
-            min-height: 45px;
-            color: #FBFFFB;
-            font-size: 1.5rem;
-        }
+      button {
+        cursor: pointer;
+        border: none;
+        border-radius: 8px;
+        min-height: 45px;
+        color: #fbfffb;
+        font-weight: 700;
+      }
 
-        button[id="login"] {
-            background-color: transparent;
-        }
+      button[id="login"] {
+        background: transparent;
+        color: #3c5dfe;
+        font-size: 1rem;
+      }
 
-        button[id="signup"] {
-            background-color: #262730;
+      button[id="signup"] {
+        min-width: 180px;
+        font-size: 1.2rem;
+
+        background: transparent;
+        border: 1px solid #3c5dfe;
+
+        transition: all 150ms;
+
+        &:hover {
+          background: #3c5dfe;
         }
+      }
     }
+  }
 
-    main {
-        display: grid;
-        max-width: 1200px;
-        margin: 50px auto;
-        gap: 50px;
-    }
+  main {
+    display: grid;
+    max-width: 1200px;
+    margin: 50px auto;
+    gap: 50px;
 
     .imgBox1 {
-        position: relative;
-        width: 250px;
-        height: 250px;
-        border-radius: 50%;
-        background-color: beige;
-        grid-row: 1/3;
-        align-self: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      position: relative;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      grid-row: 1/3;
+      align-self: center;
+
+      img {
+        width: 500px;
+      }
     }
 
     .imgBox1::after {
-        content: "";
-        background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0), #383838, rgba(255, 0, 0, 0));
-        width: 2px;
-        height: 250px;
-        position: absolute;
-        top: 0px;
-        right: -30px;
+      content: "";
+      background-image: linear-gradient(
+        to bottom,
+        rgba(255, 0, 0, 0),
+        #383838,
+        rgba(255, 0, 0, 0)
+      );
+      width: 2px;
+      height: 250px;
+      position: absolute;
+      top: 0px;
+      right: -30px;
     }
 
     .imgBox2 {
-        position: relative;
-        width: 250px;
-        height: 250px;
-        border-radius: 50%;
-        background-color: beige;
-        grid-row: 1/3;
-        grid-column: 2;
-        align-self: center;
-        justify-self: right;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      position: relative;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      grid-row: 1/3;
+      grid-column: 2;
+      align-self: center;
+      justify-self: right;
+
+      img {
+        width: 500px;
+      }
     }
 
-    .imgBox2::after {
-        content: "";
-        background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0), #383838, rgba(255, 0, 0, 0));
-        width: 2px;
-        height: 250px;
-        position: absolute;
-        top: 0px;
-        left: -30px;
+    .imgBox2::before {
+      content: "";
+      background-image: linear-gradient(
+        to bottom,
+        rgba(255, 0, 0, 0),
+        #383838,
+        rgba(255, 0, 0, 0)
+      );
+      width: 2px;
+      height: 250px;
+      position: absolute;
+      top: 0px;
+      left: -30px;
     }
 
     .decImgBox {
-        position: relative;
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background-color: beige;
-        justify-self: center;
+      position: relative;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background-color: #000a3d80;
+      justify-self: center;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        width: 65px;
+      }
     }
 
     .decImgBox::before {
-        content: "";
-        background-image: linear-gradient(to right, rgba(255, 0, 0, 0), #3c5cfe7e 30% 70% , rgba(255, 0, 0, 0));
-        width: 520px;
-        height: 2px;
-        position: absolute;
-        top: 39px;
-        right: 80px;
+      content: "";
+      background-image: linear-gradient(
+        to right,
+        rgba(255, 0, 0, 0),
+        #3c5cfe7e 30% 70%,
+        rgba(255, 0, 0, 0)
+      );
+      width: 520px;
+      height: 2px;
+      position: absolute;
+      top: 39px;
+      right: 80px;
     }
 
     .decImgBox::after {
-        content: "";
-        background-image: linear-gradient(to right, rgba(255, 0, 0, 0), #3c5cfe7e 30% 70% , rgba(255, 0, 0, 0) );
-        width: 520px;
-        height: 2px;
-        position: absolute;
-        top: 39px;
-        left: 80px;
+      content: "";
+      background-image: linear-gradient(
+        to right,
+        rgba(255, 0, 0, 0),
+        #3c5cfe7e 30% 70%,
+        rgba(255, 0, 0, 0)
+      );
+      width: 520px;
+      height: 2px;
+      position: absolute;
+      top: 39px;
+      left: 80px;
     }
 
     section {
-        background-color: #262730;
-        display: grid;
-        border-radius: 50px;
+      background-color: #262730;
+      display: grid;
+      border-radius: 50px;
 
-        p {
-            color: #FBFFFB;
-            font-size: 1.2rem;
-            padding: 20px 20px 20px 20px;
-        }
+      p {
+        color: #fbfffb;
+        font-size: 1.2rem;
+        line-height: 28px;
+        padding: 20px;
+        text-align: justify;
+      }
     }
 
     .sec1 {
-        grid-template-columns: 2fr 5fr;
-        padding-right: 20px;
+      grid-template-columns: 2fr 5fr;
+      padding-right: 20px;
     }
 
     .sec2 {
-        grid-template-columns: 5fr 2fr;
-        padding-left: 20px;
+      grid-template-columns: 5fr 2fr;
+      padding-left: 20px;
     }
+  }
 
-    footer {
-        position: relative;
-        padding: 20px;
+  footer {
+    position: relative;
+    // padding: 20px;
 
-        button {
-            background-color: #FBFFFB;
-            font-size: 1.2rem;
-            padding: 5px 20px;
-            margin-top: 10px;
-            border-radius: 6px;
-            float: right;
-        }
+    button {
+      cursor: pointer;
+
+      position: fixed;
+      bottom: 5px;
+      right: 15px;
+
+      background: none;
+      border: none;
+
+      img {
+        width: 50px;
+        height: 50px;
+      }
     }
+  }
 
-    footer::before {
-        content: "";
-        background-image: linear-gradient(to right, rgba(255, 0, 0, 0), #3c5cfe7e 30% 70% , rgba(255, 0, 0, 0) );
-        width: 100%;
-        height: 2px;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-    }
+  footer::before {
+    content: "";
+    background-image: linear-gradient(
+      to right,
+      rgba(255, 0, 0, 0),
+      #3c5cfe7e 30% 70%,
+      rgba(255, 0, 0, 0)
+    );
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
 }
