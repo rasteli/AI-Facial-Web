@@ -1,0 +1,163 @@
+.container {
+    .header {
+        display: flex;
+        align-content: center;
+        justify-content: space-between;
+        background-color: #6EB0FC;
+        width: 100%;
+        height: 75px;
+        padding: 10px 20px;
+        box-sizing: border-box;
+    }
+
+    .logoBox {
+        width: 120px;
+        height: 100%;
+        background-color: beige;
+    }
+
+    nav {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+
+        button { // <--- Eu quero *muito* tacar um "border radius" nesses botões.
+            min-width: 180px;
+            min-height: 45px;
+            color: #FBFFFB;
+            font-size: 1.5rem;
+        }
+
+        button[id="login"] {
+            background-color: transparent;
+        }
+
+        button[id="signup"] {
+            background-color: #262730;
+        }
+    }
+
+    main {
+        display: grid;
+        max-width: 1200px;
+        margin: 50px auto;
+        gap: 50px;
+    }
+
+    .imgBox1 {
+        position: relative;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background-color: beige;
+        grid-row: 1/3;
+        align-self: center;
+    }
+
+    .imgBox1::after {
+        content: "";
+        background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0), #383838, rgba(255, 0, 0, 0));
+        width: 2px;
+        height: 250px;
+        position: absolute;
+        top: 0px;
+        right: -30px;
+    }
+
+    .imgBox2 {
+        position: relative;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background-color: beige;
+        grid-row: 1/3;
+        grid-column: 2;
+        align-self: center;
+        justify-self: right;
+    }
+
+    .imgBox2::after {
+        content: "";
+        background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0), #383838, rgba(255, 0, 0, 0));
+        width: 2px;
+        height: 250px;
+        position: absolute;
+        top: 0px;
+        left: -30px;
+    }
+
+    .decImgBox {
+        position: relative;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: beige;
+        justify-self: center;
+    }
+
+    .decImgBox::before {
+        content: "";
+        background-image: linear-gradient(to right, rgba(255, 0, 0, 0), #3c5cfe7e 30% 70% , rgba(255, 0, 0, 0));
+        width: 520px;
+        height: 2px;
+        position: absolute;
+        top: 39px;
+        right: 80px;
+    }
+
+    .decImgBox::after {
+        content: "";
+        background-image: linear-gradient(to right, rgba(255, 0, 0, 0), #3c5cfe7e 30% 70% , rgba(255, 0, 0, 0) );
+        width: 520px;
+        height: 2px;
+        position: absolute;
+        top: 39px;
+        left: 80px;
+    }
+
+    section {
+        background-color: #262730;
+        display: grid;
+        border-radius: 50px;
+
+        p {
+            color: #FBFFFB;
+            font-size: 1.2rem;
+            padding: 20px 20px 20px 20px;
+        }
+    }
+
+    .sec1 {
+        grid-template-columns: 2fr 5fr;
+        padding-right: 20px;
+    }
+
+    .sec2 {
+        grid-template-columns: 5fr 2fr;
+        padding-left: 20px;
+    }
+
+    footer {
+        position: relative;
+        padding: 20px;
+
+        button {
+            background-color: #FBFFFB;
+            font-size: 1.2rem;
+            padding: 5px 20px;
+            margin-top: 10px;
+            border-radius: 6px;
+            float: right;
+        }
+    }
+
+    footer::before {
+        content: "";
+        background-image: linear-gradient(to right, rgba(255, 0, 0, 0), #3c5cfe7e 30% 70% , rgba(255, 0, 0, 0) );
+        width: 100%;
+        height: 2px;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+    }
+}
