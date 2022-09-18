@@ -1,0 +1,73 @@
+.container {
+  user-select: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  width: 100%;
+  margin: 20px;
+  box-sizing: border-box;
+  background-color: #17181e;
+
+  .logoBox {
+    img {
+      width: 200px;
+    }
+  }
+
+  nav {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+    .profileNav {
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+
+      gap: 16px;
+      color: #fbfffb;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: 600;
+
+      transition: filter 150ms;
+
+      &:hover {
+        filter: brightness(0.8);
+      }
+    }
+
+    .formNav {
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      min-height: 45px;
+      color: #fbfffb;
+      font-weight: 700;
+    }
+
+    button[id="login"] {
+      background: transparent;
+      color: #3c5dfe;
+      font-size: 1rem;
+    }
+
+    button[id="signup"] {
+      min-width: 180px;
+      font-size: 1.2rem;
+
+      background: transparent;
+      border: 1px solid #3c5dfe;
+
+      transition: all 150ms;
+
+      &:hover {
+        background: #3c5dfe;
+      }
+    }
+  }
+}

@@ -1,14 +1,13 @@
 import { FormEvent, useState } from "react"
 
+import { api } from "../../services/api"
 import styles from "./styles.module.scss"
 
 import { Alert, Variant } from "../Alert"
-import { useAuth } from "../../contexts/AuthContext"
 import { useViewport } from "../../hooks/useViewport"
 import { getErrorMessage } from "../../utils/getErrorMessage"
 
 export function RequestPasswordReset() {
-  const { sendResetEmail } = useAuth()
   const { aboveThreshold } = useViewport(540)
 
   const [email, setEmail] = useState("")
@@ -21,18 +20,18 @@ export function RequestPasswordReset() {
     e.preventDefault()
 
     try {
-      const response = await sendResetEmail(email)
-      setAlertMessage(response)
+      const response = await api.post("/request-reset", { email })
+      setAlertMessage(response.data.message)
       setVariant("success")
     } catch (error: any) {
       const errorMessage = getErrorMessage(error)
 
       setAlertMessage(errorMessage)
       setVariant("danger")
+    } finally {
+      setEmail("")
+      setIsOpen(true)
     }
-
-    setEmail("")
-    setIsOpen(true)
   }
 
   return (

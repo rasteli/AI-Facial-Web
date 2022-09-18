@@ -15,10 +15,6 @@ interface AuthResponse {
   user: User
 }
 
-interface ResetResponse {
-  message: string
-}
-
 interface AuthContextData {
   user: User | null
   isLoading: boolean
@@ -27,12 +23,6 @@ interface AuthContextData {
   signUp: AuthFunc
   updateUser: AuthFunc
   setUser: React.Dispatch<React.SetStateAction<User | null>>
-  sendResetEmail: (email: string) => Promise<string>
-  resetPassword: (
-    user_id: string,
-    password: string,
-    resetToken: string
-  ) => Promise<void>
 }
 
 const AuthContext = createContext({} as AuthContextData)
@@ -98,24 +88,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     await authenticateUser(`/users/${user?.id}`, "put", payload)
   }
 
-  async function sendResetEmail(email: string) {
-    const response = await api.post<ResetResponse>("/request-reset", { email })
-
-    return response.data.message
-  }
-
-  async function resetPassword(
-    user_id: string,
-    password: string,
-    resetToken: string
-  ) {
-    await api.put("/reset-password", {
-      user_id,
-      password,
-      resetToken
-    })
-  }
-
   function signOut() {
     setUser(null)
     localStorage.removeItem("@IA:token")
@@ -128,9 +100,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     signUp,
     signOut,
     setUser,
-    updateUser,
-    resetPassword,
-    sendResetEmail
+    updateUser
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

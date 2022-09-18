@@ -1,10 +1,10 @@
 import { FormEvent, useEffect, useState } from "react"
 import { useSearchParams, useNavigate } from "react-router-dom"
 
+import { api } from "../../services/api"
 import styles from "./styles.module.scss"
 
 import { Alert } from "../Alert"
-import { useAuth } from "../../contexts/AuthContext"
 import { useViewport } from "../../hooks/useViewport"
 import { getErrorMessage } from "../../utils/getErrorMessage"
 
@@ -12,7 +12,6 @@ export function PasswordReset() {
   const navigate = useNavigate()
   const { aboveThreshold } = useViewport(540)
 
-  const { resetPassword } = useAuth()
   const [searchParams] = useSearchParams()
 
   const [userId, setUserId] = useState("")
@@ -37,13 +36,12 @@ export function PasswordReset() {
   async function handleFormSubmit(e: FormEvent) {
     e.preventDefault()
 
-    if (password !== rePassword) {
-      setIsOpen(true)
-      return setAlertMessage("Senhas não conferem.")
-    }
-
     try {
-      await resetPassword(userId, password, resetToken)
+      if (password !== rePassword) {
+        throw new Error("Senhas não conferem.")
+      }
+
+      await api.put(`/users/${userId}/password`, { password, resetToken })
       navigate("/login", { replace: true })
     } catch (error: any) {
       const errorMessage = getErrorMessage(error)

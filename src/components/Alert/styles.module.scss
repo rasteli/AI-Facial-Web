@@ -1,6 +1,8 @@
 $border: 1px solid;
 
 dialog {
+  z-index: 1000;
+
   padding: 20px;
   position: absolute;
 
