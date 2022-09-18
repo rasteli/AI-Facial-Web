@@ -1,12 +1,9 @@
-# Known Issues
-
-- Not responsive enough
-
 # TODO
 
+- [ ] Make more responsive
 - [x] Not authenticated user only routes
-- [ ] Redesign of existing pages
+- [x] Redesign of existing pages
 - [ ] Creation of pages:
   - [ ] Interaction with Chat Bot
   - [x] Interaction with Facial AI
-  - [ ] Landing page
+  - [x] Landing page
