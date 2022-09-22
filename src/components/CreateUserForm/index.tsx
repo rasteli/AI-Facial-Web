@@ -5,9 +5,7 @@ import Select from "react-select"
 import styles from "./styles.module.scss"
 import form from "../../assets/form.png"
 
-import { HR } from "../HR"
 import { Alert } from "../Alert"
-
 import { useAuth } from "../../contexts/AuthContext"
 import { useViewport } from "../../hooks/useViewport"
 import { customStyles } from "../../utils/reactSelect"
@@ -83,7 +81,7 @@ export function CreateUserForm() {
             required
           />
 
-          <HR />
+          <div className={styles.hr} />
 
           <label htmlFor="nickname">APELIDO</label>
           <input
@@ -94,7 +92,7 @@ export function CreateUserForm() {
             required
           />
 
-          <HR />
+          <div className={styles.hr} />
 
           <label htmlFor="email">EMAIL</label>
           <input
@@ -105,7 +103,7 @@ export function CreateUserForm() {
             required
           />
 
-          <HR />
+          <div className={styles.hr} />
 
           <div className={styles.inputBlock}>
             <div className={styles.inputInBlock}>
@@ -119,7 +117,7 @@ export function CreateUserForm() {
               />
             </div>
 
-            {!aboveThreshold && <HR />}
+            {!aboveThreshold && <div className={styles.hr} />}
 
             <div className={styles.inputInBlock}>
               <label htmlFor="re-password">CONFRIMAR SENHA</label>
@@ -133,7 +131,7 @@ export function CreateUserForm() {
             </div>
           </div>
 
-          <HR />
+          <div className={styles.hr} />
 
           <div className={styles.inputBlock}>
             <div className={styles.inputInBlock}>
@@ -147,7 +145,7 @@ export function CreateUserForm() {
               />
             </div>
 
-            {!aboveThreshold && <HR />}
+            {!aboveThreshold && <div className={styles.hr} />}
 
             <div className={styles.inputInBlock}>
               <label htmlFor="gender">SEXO</label>
@@ -165,7 +163,7 @@ export function CreateUserForm() {
             </div>
           </div>
 
-          <HR />
+          <div className={styles.hr} />
 
           <label htmlFor="date">DATA DE NASCIMENTO</label>
           <input
@@ -176,7 +174,7 @@ export function CreateUserForm() {
             required
           />
 
-          <HR />
+          <div className={styles.hr} />
 
           <div className={styles.buttons}>
             <button

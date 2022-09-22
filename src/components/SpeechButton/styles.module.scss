@@ -1,0 +1,28 @@
+.speechButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  position: fixed;
+  bottom: 8px;
+  margin-left: 2rem;
+  font-size: 1.25rem;
+
+  color: #707070;
+
+  button {
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    background: transparent;
+    transition: filter 100ms;
+
+    img {
+      width: 40px;
+    }
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+}

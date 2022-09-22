@@ -17,15 +17,10 @@ export function Header() {
       </div>
       <nav>
         {user ? (
-          <button
-            className={styles.profileNav}
-            onClick={() => {
-              navigate("/profile", { replace: false })
-            }}
-          >
+          <a href="/profile" className={styles.profileNav}>
             {user.nickname}
             <img src={userImg} alt="" />
-          </button>
+          </a>
         ) : (
           <>
             <button

@@ -3,7 +3,6 @@ import { useNavigate, useLocation, Link } from "react-router-dom"
 
 import styles from "./styles.module.scss"
 
-import { HR } from "../HR"
 import { Alert } from "../Alert"
 import { useViewport } from "../../hooks/useViewport"
 
@@ -64,7 +63,7 @@ export function Login() {
             required
           />
 
-          <HR />
+          <div className={styles.hr} />
 
           <label htmlFor="password">SENHA</label>
           <input
@@ -75,7 +74,7 @@ export function Login() {
             required
           />
 
-          <HR />
+          <div className={styles.hr} />
 
           <span className={styles.forgotPassword}>
             <Link to="/requestPassword">Esqueceu a senha?</Link>

@@ -1,0 +1,87 @@
+.AIBubble {
+  width: fit-content;
+  max-width: 20rem;
+  line-height: 1.4;
+
+  margin-left: 4rem;
+  border-radius: 12px;
+  padding: 0.875rem 3.5rem 1rem 0.875rem;
+  background: #4a4a4a;
+  color: #fff;
+  text-align: left;
+  position: relative;
+  font-size: 1rem;
+
+  span {
+    color: #bababa;
+    font-size: 0.875rem;
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+    width: 100%;
+    text-align: right;
+  }
+
+  & + .AIBubble {
+    &::before {
+      border: 0;
+    }
+  }
+
+  &::before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-left: 15px solid transparent;
+    border-right: 15px solid #4a4a4a;
+    border-top: 15px solid #4a4a4a;
+    border-bottom: 15px solid transparent;
+    left: -16px;
+    top: 0px;
+  }
+}
+
+.userBubble {
+  width: fit-content;
+  max-width: 20rem;
+  line-height: 1.4;
+
+  border-radius: 12px;
+  margin-right: 4rem;
+  padding: 0.875rem 3.5rem 1rem 0.875rem;
+  background: #3c5dfe;
+  color: #fff;
+  text-align: left;
+  position: relative;
+  align-self: flex-end;
+  font-size: 1rem;
+
+  span {
+    color: #bababa;
+    font-size: 0.875rem;
+    text-align: right;
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+  }
+
+  & + .userBubble {
+    &::before {
+      border: 0;
+    }
+  }
+
+  &::before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-left: 15px solid #3c5dfe;
+    border-right: 15px solid transparent;
+    border-top: 15px solid #3c5dfe;
+    border-bottom: 15px solid transparent;
+    right: -16px;
+    top: 0px;
+  }
+}
