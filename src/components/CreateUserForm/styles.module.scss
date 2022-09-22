@@ -52,6 +52,27 @@
       margin-top: 50px;
     }
 
+    .hr {
+      position: relative;
+
+      &::after {
+        position: absolute;
+        top: 0;
+        left: 15px;
+
+        content: "";
+
+        width: 95%;
+        height: 1px;
+
+        background: linear-gradient(90deg, #6eb0fc, #3c5dfe, #6eb0fc);
+
+        @media (max-width: 540px) {
+          width: 92%;
+        }
+      }
+    }
+
     form {
       display: flex;
       flex-direction: column;

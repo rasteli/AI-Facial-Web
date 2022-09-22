@@ -1,197 +1,56 @@
-import { useEffect, useRef, useState } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
-import * as faceapi from "face-api.js"
+import { useRef, useState } from "react"
+import { useLocation } from "react-router-dom"
 
+import styles from "./styles.module.scss"
+
+import { Spinner } from "../Spinner"
+import { useFace } from "../../hooks/useFace"
 import { GrantPermission } from "../GrantPermission"
-import { useAuth } from "../../contexts/AuthContext"
 
-import { detectFace } from "../../utils/detectFace"
-import { signUp, login } from "../../utils/webcamRequests"
-import { getErrorMessage } from "../../utils/getErrorMessage"
-
-type LocationState = {
+export type LocationState = {
   login: string
   password: string
   requestType: "login" | "signup"
 }
 
-const MIN_PROB_FACE = 50
-const NUMBER_OF_PHOTOS = 4
-
 export function Webcam() {
-  const { logIn, setUser, user } = useAuth()
-
   const location = useLocation()
-  const navigate = useNavigate()
+  const state = location.state as LocationState
 
   const stripRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  const [intervalDone, setIntervalDone] = useState(false)
   const [canVideo, setCanVideo] = useState(
     localStorage.getItem("canVideo") === "true"
   )
 
-  let qtyImg = 0
-  const width = 320
-  const height = 240
-  var interval: number
-
-  const form = new FormData()
-  const state = location.state as LocationState
-
-  useEffect(() => {
-    // If there's no state — meaning this location was accessed directly
-    // via URL —, redirect to the previous location.
-    if (!state) return navigate(-1)
-  }, [])
-
-  useEffect(() => {
-    ;(function () {
-      if (!canVideo) return
-
-      const MODEL_URL = "/models"
-      const faceNets = faceapi.nets
-
-      Promise.all([
-        faceNets.tinyFaceDetector.loadFromUri(MODEL_URL),
-        faceNets.faceLandmark68Net.loadFromUri(MODEL_URL),
-        faceNets.faceRecognitionNet.loadFromUri(MODEL_URL),
-        faceNets.faceExpressionNet.loadFromUri(MODEL_URL)
-      ]).then(() => console.log("Models loading complete"))
-    })()
-  }, [canVideo])
-
-  useEffect(() => {
-    ;(async function () {
-      if (!canVideo) return
-
-      await getVideo()
-    })()
-  }, [videoRef, canVideo])
-
-  useEffect(() => {
-    clearInterval(interval)
-  }, [intervalDone])
-
-  async function getVideo() {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width, height }
-      })
-
-      // Permission granted
-      const video = videoRef.current as HTMLVideoElement
-
-      video.srcObject = stream
-      video.play()
-    } catch (error) {
-      // Permission denied
-      console.error(error)
-    }
-  }
-
-  function paintToCanvas() {
-    const video = videoRef.current as HTMLVideoElement
-    const canvas = canvasRef.current as HTMLCanvasElement
-    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D
-
-    canvas.width = width
-    canvas.height = height
-
-    interval = setInterval(async () => {
-      const { faceDescriptions, probability } = await detectFace(
-        canvas,
-        video,
-        width,
-        height
-      )
-
-      if (faceDescriptions.length === 1 && probability >= MIN_PROB_FACE) {
-        ctx.drawImage(video, 0, 0, width, height)
-
-        if (qtyImg === NUMBER_OF_PHOTOS) {
-          qtyImg++
-
-          // Logging form entries in the console
-          console.log(Array.from(form.entries()))
-
-          const requests = {
-            signup: () => signUp(form, setUser, user),
-            login: () =>
-              login(form, state.login, state.password, logIn, navigate)
-          }
-
-          const request = requests[state.requestType]
-
-          try {
-            await request()
-            navigate("/profile", { replace: true })
-          } catch (error: any) {
-            const errorMessage = getErrorMessage(error)
-
-            navigate(`/${state.requestType}`, {
-              replace: true,
-              state: { error: true, errorMessage }
-            })
-          } finally {
-            stopWebcam()
-            setIntervalDone(true)
-          }
-        } else if (qtyImg < NUMBER_OF_PHOTOS) {
-          takePhoto(form)
-        }
-      }
-    }, 250)
-
-    return interval
-  }
-
-  function takePhoto(form: FormData) {
-    console.log(`Trying with ${qtyImg}`)
-
-    let canvas = canvasRef.current as HTMLCanvasElement
-    let strip = stripRef.current as HTMLDivElement
-
-    const data = canvas.toDataURL("image/jpeg")
-    const img = document.createElement("img")
-
-    img.setAttribute("src", data)
-    strip.insertBefore(img, strip.firstChild)
-
-    canvas.toBlob(blob => {
-      form.append(`img-${qtyImg}`, blob as Blob, `img-${qtyImg}.jpg`)
-      console.log(`Took photo: img-${qtyImg}`)
-      qtyImg++
-    }, "image/jpeg")
-  }
-
-  function stopWebcam() {
-    const video = videoRef.current as HTMLVideoElement
-    const stream = video.srcObject as MediaStream
-
-    if (stream) {
-      const tracks = stream.getTracks()
-
-      for (let i = 0; i < tracks.length; i++) {
-        let track = tracks[i]
-        track.stop()
-      }
-
-      // video.srcObject = null
-      video.pause()
-    }
-  }
+  const { paintToCanvas } = useFace({
+    state,
+    stripRef,
+    videoRef,
+    canvasRef,
+    canVideo
+  })
 
   return (
-    <div>
+    <div className={styles.container}>
       {canVideo ? (
         <>
-          <video onCanPlay={paintToCanvas} ref={videoRef} />
+          <video
+            className={styles.faceCam}
+            onCanPlay={paintToCanvas}
+            ref={videoRef}
+          />
           <canvas ref={canvasRef} style={{ display: "none" }} />
+
+          <div className={styles.info}>
+            <p>Escaneando sua linda face</p>
+            <Spinner />
+          </div>
+
           <div>
-            <div ref={stripRef} />
+            <div className={styles.shots} ref={stripRef} />
           </div>
         </>
       ) : (

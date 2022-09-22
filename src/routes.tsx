@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { Home } from "./components/Home"
 import { Login } from "./components/Login"
 import { Webcam } from "./components/Webcam"
+import { ChatBot } from "./components/ChatBot"
 import { UserProfile } from "./components/UserProfile"
 import { DynamicRoute } from "./components/DynamicRoute"
 import { PasswordReset } from "./components/PasswordReset"
@@ -52,6 +53,14 @@ export function AppRoutes() {
           element={
             <DynamicRoute type="public">
               <RequestPasswordReset />
+            </DynamicRoute>
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            <DynamicRoute type="protected">
+              <ChatBot />
             </DynamicRoute>
           }
         />

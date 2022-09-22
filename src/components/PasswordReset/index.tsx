@@ -69,12 +69,17 @@ export function PasswordReset() {
             onChange={e => setPassword(e.target.value)}
             required
           />
+
+          <div className={styles.hr} />
+
           <label htmlFor="rePassword">REINSERIR NOVA SENHA</label>
           <input
             type="password"
             onChange={e => setRePassword(e.target.value)}
             required
           />
+
+          <div className={styles.hr} />
 
           <button type="submit">REDEFINIR SENHA</button>
         </form>
