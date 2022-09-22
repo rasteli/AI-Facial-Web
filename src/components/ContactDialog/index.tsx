@@ -51,7 +51,7 @@ export function ContactDialog() {
                 type="text"
                 id="email"
                 name="email"
-                placeholder="email@email.com"
+                placeholder="johndoe@email.com"
               />
             </div>
 
@@ -71,7 +71,7 @@ export function ContactDialog() {
               <label htmlFor="description">Descrição</label>
               <textarea
                 required
-                className={styles.inputField}
+                className={`${styles.inputField} ${styles.textarea}`}
                 name="description"
                 id="description"
                 placeholder="Descreva detalhadamente o assunto"
