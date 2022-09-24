@@ -1,14 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
-import { Home } from "./components/Home"
-import { Login } from "./components/Login"
-import { Webcam } from "./components/Webcam"
-import { ChatBot } from "./components/ChatBot"
-import { UserProfile } from "./components/UserProfile"
+import { Home } from "./pages/Home"
+import { Chat } from "./pages/Chat"
+import { Login } from "./pages/Login"
+import { Webcam } from "./pages/Webcam"
+import { Signup } from "./pages/Signup"
+import { Profile } from "./pages/Profile"
+import { PasswordReset } from "./pages/PasswordReset"
+import { RequestPasswordReset } from "./pages/RequestPasswordReset"
+
 import { DynamicRoute } from "./components/DynamicRoute"
-import { PasswordReset } from "./components/PasswordReset"
-import { CreateUserForm } from "./components/CreateUserForm"
-import { RequestPasswordReset } from "./components/RequestPasswordReset"
 
 export function AppRoutes() {
   return (
@@ -19,7 +20,7 @@ export function AppRoutes() {
           path="/profile"
           element={
             <DynamicRoute type="protected">
-              <UserProfile />
+              <Profile />
             </DynamicRoute>
           }
         />
@@ -36,7 +37,7 @@ export function AppRoutes() {
           path="/signup"
           element={
             <DynamicRoute type="public">
-              <CreateUserForm />
+              <Signup />
             </DynamicRoute>
           }
         />
@@ -60,7 +61,7 @@ export function AppRoutes() {
           path="/chat"
           element={
             <DynamicRoute type="protected">
-              <ChatBot />
+              <Chat />
             </DynamicRoute>
           }
         />

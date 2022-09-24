@@ -5,14 +5,14 @@ import userImg from "../../assets/user.svg"
 import izzoLogo from "../../assets/izzo-logo.svg"
 import talkingAI from "../../assets/talkingAI.png"
 
-import { SpeechBubble } from "../SpeechBubble"
-import { SpeechButton } from "../SpeechButton"
+import { SpeechBubble } from "../../components/SpeechBubble"
+import { SpeechButton } from "../../components/SpeechButton"
 
 import { useSpeech } from "../../hooks/useSpeech"
 import { useAuth } from "../../contexts/AuthContext"
 import { useMessage } from "../../contexts/MessageContext"
 
-export function ChatBot() {
+export function Chat() {
   const { user } = useAuth()
   const { messages } = useMessage()
 

@@ -1,10 +1,10 @@
 import { FormEvent, useState } from "react"
 
-import { api } from "../../services/api"
 import styles from "./styles.module.scss"
 
-import { Alert, Variant } from "../Alert"
+import { api } from "../../services/api"
 import { useViewport } from "../../hooks/useViewport"
+import { Alert, Variant } from "../../components/Alert"
 import { getErrorMessage } from "../../utils/getErrorMessage"
 
 export function RequestPasswordReset() {

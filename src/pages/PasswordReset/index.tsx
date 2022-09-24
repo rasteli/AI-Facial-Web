@@ -1,10 +1,10 @@
 import { FormEvent, useEffect, useState } from "react"
 import { useSearchParams, useNavigate } from "react-router-dom"
 
-import { api } from "../../services/api"
 import styles from "./styles.module.scss"
 
-import { Alert } from "../Alert"
+import { api } from "../../services/api"
+import { Alert } from "../../components/Alert"
 import { useViewport } from "../../hooks/useViewport"
 import { getErrorMessage } from "../../utils/getErrorMessage"
 

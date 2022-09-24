@@ -1,10 +1,11 @@
 import { FormEvent, useState } from "react"
 import * as Dialog from "@radix-ui/react-dialog"
 
-import { api } from "../../services/api"
 import styles from "./styles.module.scss"
-import { getErrorMessage } from "../../utils/getErrorMessage"
-import { Alert, Variant } from "../Alert"
+
+import { api } from "../../../services/api"
+import { Alert, Variant } from "../../../components/Alert"
+import { getErrorMessage } from "../../../utils/getErrorMessage"
 
 export function ContactDialog() {
   const [message, setMessage] = useState("")

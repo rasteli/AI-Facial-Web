@@ -34,7 +34,7 @@ export function useSpeech() {
         }
       },
       {
-        command: "Dar um F5",
+        command: ["Dar um F5", "F5", "Dá um F5", "Atualizar"],
         matchInterim: true,
         callback: () => {
           window.location.reload()

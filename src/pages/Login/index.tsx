@@ -3,7 +3,7 @@ import { useNavigate, useLocation, Link } from "react-router-dom"
 
 import styles from "./styles.module.scss"
 
-import { Alert } from "../Alert"
+import { Alert } from "../../components/Alert"
 import { useViewport } from "../../hooks/useViewport"
 
 type LocationState = {

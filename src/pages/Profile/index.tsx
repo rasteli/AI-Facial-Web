@@ -2,18 +2,18 @@ import styles from "./styles.module.scss"
 import userAvatar from "../../assets/user.svg"
 import logOut from "../../assets/logout.svg"
 
-import { UpdateItem } from "../UpdateItem"
 import { items } from "../../utils/homeItems"
-import { useViewport } from "../../hooks/useViewport"
-
 import { useAuth } from "../../contexts/AuthContext"
+import { useViewport } from "../../hooks/useViewport"
+import { UpdateItem } from "../../components/UpdateItem"
+
 import {
   useUpdate,
   defaultToUpdate,
   defaultIsToUpdate
 } from "../../contexts/UpdateContext"
 
-export function UserProfile() {
+export function Profile() {
   const { aboveThreshold } = useViewport(540)
   const { user, signOut, updateUser } = useAuth()
   const { toUpdate, setToUpdate, setIsToUpdate } = useUpdate()
@@ -70,5 +70,3 @@ export function UserProfile() {
     </div>
   )
 }
-
-// amogus

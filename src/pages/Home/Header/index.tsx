@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom"
 
 import styles from "./styles.module.scss"
-import userImg from "../../assets/user.svg"
-import izzoLogo from "../../assets/izzo-logo.svg"
+import userImg from "../../../assets/user.svg"
+import izzoLogo from "../../../assets/izzo-logo.svg"
 
-import { useAuth } from "../../contexts/AuthContext"
+import { useAuth } from "../../../contexts/AuthContext"
 
 export function Header() {
   const { user } = useAuth()
