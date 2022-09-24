@@ -1,12 +1,12 @@
 import styles from "./styles.module.scss"
 
-interface SpeechBubbleProps {
+interface MessageBubbleProps {
   sender: string
   text: string
   sentAt: number
 }
 
-export function SpeechBubble({ sender, text, sentAt }: SpeechBubbleProps) {
+export function MessageBubble({ sender, text, sentAt }: MessageBubbleProps) {
   const senderIsUser = sender === "user"
 
   // Calculate Date.now() to hour string

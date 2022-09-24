@@ -2,10 +2,10 @@ import { FormEvent, useState } from "react"
 
 import styles from "./styles.module.scss"
 
-import { api } from "../../services/api"
-import { useViewport } from "../../hooks/useViewport"
-import { Alert, Variant } from "../../components/Alert"
-import { getErrorMessage } from "../../utils/getErrorMessage"
+import { api } from "@/services/api"
+import { useViewport } from "@/hooks/useViewport"
+import { Alert, Variant } from "@/components/Alert"
+import { getErrorMessage } from "@/utils/getErrorMessage"
 
 export function RequestPasswordReset() {
   const { aboveThreshold } = useViewport(540)

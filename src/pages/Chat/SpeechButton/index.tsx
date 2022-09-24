@@ -1,7 +1,6 @@
-import mic from "../../assets/mic.svg"
-import noMic from "../../assets/no-mic.svg"
-
-import { useViewport } from "../../hooks/useViewport"
+import mic from "@/assets/mic.svg"
+import noMic from "@/assets/no-mic.svg"
+import { useViewport } from "@/hooks/useViewport"
 
 interface SpeechButtonProps {
   transcript: string

@@ -3,10 +3,10 @@ import { useSearchParams, useNavigate } from "react-router-dom"
 
 import styles from "./styles.module.scss"
 
-import { api } from "../../services/api"
-import { Alert } from "../../components/Alert"
-import { useViewport } from "../../hooks/useViewport"
-import { getErrorMessage } from "../../utils/getErrorMessage"
+import { api } from "@/services/api"
+import { Alert } from "@/components/Alert"
+import { useViewport } from "@/hooks/useViewport"
+import { getErrorMessage } from "@/utils/getErrorMessage"
 
 export function PasswordReset() {
   const navigate = useNavigate()

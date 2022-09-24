@@ -3,9 +3,9 @@ import * as Dialog from "@radix-ui/react-dialog"
 
 import styles from "./styles.module.scss"
 
-import { api } from "../../../services/api"
-import { Alert, Variant } from "../../../components/Alert"
-import { getErrorMessage } from "../../../utils/getErrorMessage"
+import { api } from "@/services/api"
+import { Alert, Variant } from "@/components/Alert"
+import { getErrorMessage } from "@/utils/getErrorMessage"
 
 export function ContactDialog() {
   const [message, setMessage] = useState("")

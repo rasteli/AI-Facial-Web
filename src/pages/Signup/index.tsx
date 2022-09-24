@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom"
 import Select from "react-select"
 
 import styles from "./styles.module.scss"
-import form from "../../assets/form.png"
 
-import { Alert } from "../../components/Alert"
-import { useAuth } from "../../contexts/AuthContext"
-import { useViewport } from "../../hooks/useViewport"
-import { customStyles } from "../../utils/reactSelect"
-import { getErrorMessage } from "../../utils/getErrorMessage"
+import form from "@/assets/form.png"
+import { Alert } from "@/components/Alert"
+import { useAuth } from "@/contexts/AuthContext"
+import { useViewport } from "@/hooks/useViewport"
+import { customStyles } from "@/utils/reactSelect"
+import { getErrorMessage } from "@/utils/getErrorMessage"
 
 export function Signup() {
   const { signUp } = useAuth()

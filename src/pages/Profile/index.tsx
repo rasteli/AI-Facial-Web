@@ -1,17 +1,18 @@
 import styles from "./styles.module.scss"
-import userAvatar from "../../assets/user.svg"
-import logOut from "../../assets/logout.svg"
+import chatImg from "@/assets/chat.svg"
+import logOut from "@/assets/logout.svg"
+import userAvatar from "@/assets/user.svg"
 
-import { items } from "../../utils/homeItems"
-import { useAuth } from "../../contexts/AuthContext"
-import { useViewport } from "../../hooks/useViewport"
-import { UpdateItem } from "../../components/UpdateItem"
+import { UpdateItem } from "./UpdateItem"
+import { items } from "@/utils/homeItems"
+import { useAuth } from "@/contexts/AuthContext"
+import { useViewport } from "@/hooks/useViewport"
 
 import {
   useUpdate,
   defaultToUpdate,
   defaultIsToUpdate
-} from "../../contexts/UpdateContext"
+} from "@/contexts/UpdateContext"
 
 export function Profile() {
   const { aboveThreshold } = useViewport(540)
@@ -27,7 +28,7 @@ export function Profile() {
   return (
     <div className={styles.container}>
       <header>
-        <img src={userAvatar} alt="user avatar" />
+        <img className={styles.avatar} src={userAvatar} alt="user avatar" />
         <div className={styles.user}>
           <h1>
             Perfil do usuário: <span>{user?.name}</span>
@@ -38,6 +39,11 @@ export function Profile() {
             </h5>
           )}
         </div>
+        <nav>
+          <a href="/chat" title="Ir à página de chat">
+            <img src={chatImg} alt="chat" />
+          </a>
+        </nav>
         <button title="Sair" className={styles.logOut} onClick={signOut}>
           <img src={logOut} alt="log out" />
         </button>

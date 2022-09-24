@@ -2,10 +2,10 @@ import * as Dialog from "@radix-ui/react-dialog"
 
 import styles from "./styles.module.scss"
 
-import help from "../../assets/help.svg"
-import facePoly from "../../assets/facePoly.png"
-import talkingAI from "../../assets/talkingAI.png"
-import thinkingAI from "../../assets/thinkingAI.png"
+import help from "@/assets/help.svg"
+import facePoly from "@/assets/facePoly.png"
+import talkingAI from "@/assets/talkingAI.png"
+import thinkingAI from "@/assets/thinkingAI.png"
 
 import { Header } from "./Header"
 import { ContactDialog } from "./ContactDialog"

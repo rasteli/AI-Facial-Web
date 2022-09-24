@@ -1,16 +1,16 @@
 import { useEffect } from "react"
 import styles from "./styles.module.scss"
 
-import userImg from "../../assets/user.svg"
-import izzoLogo from "../../assets/izzo-logo.svg"
-import talkingAI from "../../assets/talkingAI.png"
+import userImg from "@/assets/user.svg"
+import izzoLogo from "@/assets/izzo-logo.svg"
+import talkingAI from "@/assets/talkingAI.png"
 
-import { SpeechBubble } from "../../components/SpeechBubble"
-import { SpeechButton } from "../../components/SpeechButton"
+import { SpeechButton } from "./SpeechButton"
+import { MessageBubble } from "./MessageBubble"
 
-import { useSpeech } from "../../hooks/useSpeech"
-import { useAuth } from "../../contexts/AuthContext"
-import { useMessage } from "../../contexts/MessageContext"
+import { useSpeech } from "@/hooks/useSpeech"
+import { useAuth } from "@/contexts/AuthContext"
+import { useMessage } from "@/contexts/MessageContext"
 
 export function Chat() {
   const { user } = useAuth()
@@ -39,7 +39,7 @@ export function Chat() {
     <div className={styles.container}>
       <header className={styles.header}>
         <nav>
-          <a href="">
+          <a href="/">
             <img className={styles.logo} src={izzoLogo} alt="IZZO Logo" />
           </a>
           <a href="/profile" className={styles.profileNav}>
@@ -59,13 +59,13 @@ export function Chat() {
 
         <main>
           <div className={styles.messages}>
-            <SpeechBubble
+            <MessageBubble
               sender="ai"
-              text={`Olá, sou a Izzo. Sua IA interativa! ${AIFirstMessage}`}
+              text={`Olá, ${user?.nickname}, sou a Izzo. Sua IA interativa! ${AIFirstMessage}`}
               sentAt={Date.now()}
             />
             {messages.map((message, index) => (
-              <SpeechBubble
+              <MessageBubble
                 key={index}
                 sender={message.sender}
                 text={message.text}

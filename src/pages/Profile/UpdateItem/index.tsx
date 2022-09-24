@@ -1,10 +1,10 @@
 import Select from "react-select"
 
 import styles from "./styles.module.scss"
-import { User } from "../../entities/User"
 
-import { useUpdate } from "../../contexts/UpdateContext"
-import { customStyles, options } from "../../utils/reactSelect"
+import { User } from "@/entities/User"
+import { useUpdate } from "@/contexts/UpdateContext"
+import { customStyles, options } from "@/utils/reactSelect"
 
 export type DefaultItem =
   | "name"

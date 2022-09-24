@@ -3,9 +3,9 @@ import { useLocation } from "react-router-dom"
 
 import styles from "./styles.module.scss"
 
-import { useFace } from "../../hooks/useFace"
-import { Spinner } from "../../components/Spinner"
-import { GrantPermission } from "../../components/GrantPermission"
+import { useFace } from "@/hooks/useFace"
+import { Spinner } from "@/components/Spinner"
+import { GrantPermission } from "./GrantPermission"
 
 export type LocationState = {
   login: string

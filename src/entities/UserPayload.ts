@@ -10,7 +10,3 @@ export interface UserPostOrPutPayload {
   birthDate?: string
   resetToken?: string
 }
-
-export interface UserDeletePayload {
-  user_id: string
-}
