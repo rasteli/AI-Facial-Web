@@ -1,4 +1,4 @@
-import { DefaultItem, ToUpdate } from "../components/UpdateItem"
+import { DefaultItem } from "../pages/Profile/UpdateItem"
 
 interface Item {
   htmlFor: DefaultItem
