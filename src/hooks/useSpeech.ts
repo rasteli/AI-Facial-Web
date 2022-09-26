@@ -78,12 +78,19 @@ export function useSpeech() {
     speechSynthesis.cancel()
     speechSynthesis.speak(utterance)
 
+    // Resumes infinitly the speech synthesis, because it stops with longer texts
+    const interval = setInterval(() => {
+      speechSynthesis.pause()
+      speechSynthesis.resume()
+    }, 5000)
+
     utterance.addEventListener("start", () => {
       stopListening()
     })
 
     utterance.addEventListener("end", () => {
       startListening(false)
+      clearInterval(interval)
     })
   }
 
@@ -104,9 +111,9 @@ export function useSpeech() {
 
     let text = data.message
 
-    if (data.message.includes("%OPEN")) {
+    if (text.includes("%OPEN")) {
       // data.message === "%OPEN:https://www.google.com"
-      const url = data.message.replace("%OPEN:", "") // -> "https://www.google.com"
+      const url = text.replace("%OPEN:", "") // -> "https://www.google.com"
 
       text = `Abrindo ${url}`
       window.open(url, "_blank")

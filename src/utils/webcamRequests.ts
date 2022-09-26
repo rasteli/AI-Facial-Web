@@ -1,5 +1,4 @@
 import React from "react"
-import { NavigateFunction } from "react-router-dom"
 
 import { User } from "../entities/User"
 import { Face } from "../entities/Face"
@@ -35,8 +34,7 @@ export async function login(
   form: FormData,
   login: string,
   password: string,
-  logIn: AuthFunc,
-  navigate: NavigateFunction
+  logIn: AuthFunc
 ) {
   const compareForm = new FormData()
 
