@@ -1,9 +1,16 @@
 import { useEffect } from "react"
 import styles from "./styles.module.scss"
 
+import mic from "@/assets/mic.svg"
 import userImg from "@/assets/user.svg"
+import noMic from "@/assets/no-mic.svg"
 import izzoLogo from "@/assets/izzo-logo.svg"
+
+import angryAI from "@/assets/angryAI.png"
+import happyAI from "@/assets/happyAI.png"
+import tongueAI from "@/assets/tongueAI.png"
 import talkingAI from "@/assets/talkingAI.png"
+import thinkingAI from "@/assets/thinkingAI.png"
 
 import { SpeechButton } from "./SpeechButton"
 import { MessageBubble } from "./MessageBubble"
@@ -17,16 +24,42 @@ export function Chat() {
   const { messages } = useMessage()
 
   const {
+    feeling,
     transcript,
+    IzzoCanTalk,
     cannotListen,
+    stopListening,
+    setIzzoCanTalk,
     startListening,
-    handleListening,
     isMicrophoneAvailable,
     browserSupportsSpeechRecognition
   } = useSpeech()
 
+  const imgAndTextByFeeling = {
+    ANGRY: {
+      img: angryAI,
+      text: "com raiva"
+    },
+    HAPPY: {
+      img: happyAI,
+      text: "feliz"
+    },
+    TONGUE: {
+      img: tongueAI,
+      text: "sapeca"
+    },
+    TALKING: {
+      img: talkingAI,
+      text: "falante"
+    },
+    THINKING: {
+      img: thinkingAI,
+      text: "pensativa"
+    }
+  }
+
   useEffect(() => {
-    startListening()
+    startListening(true)
   }, [])
 
   const AIFirstMessage = !browserSupportsSpeechRecognition
@@ -51,10 +84,25 @@ export function Chat() {
 
       <div className={styles.content}>
         <aside className={styles.sidebar}>
-          <img className={styles.AIfelling} src={talkingAI} />
-          <p>
-            Sentindo-se <span>falante</span>
-          </p>
+          <img
+            className={styles.AIfelling}
+            src={imgAndTextByFeeling[feeling].img}
+          />
+          <div className={styles.feelAndMute}>
+            <p>
+              Sentindo-se <span>{imgAndTextByFeeling[feeling].text}</span>
+            </p>
+            <button
+              className={styles.muteAI}
+              title="Ligar/Desligar voz da IZZO"
+            >
+              <img
+                src={IzzoCanTalk ? mic : noMic}
+                alt={IzzoCanTalk ? "Microfone ligado" : "Microfone desligado"}
+                onClick={() => setIzzoCanTalk(!IzzoCanTalk)}
+              />
+            </button>
+          </div>
         </aside>
 
         <main>
@@ -78,7 +126,8 @@ export function Chat() {
             <SpeechButton
               transcript={transcript}
               cannotListen={cannotListen}
-              handleListening={handleListening}
+              stopListening={stopListening}
+              startListening={startListening}
               isMicrophoneAvailable={isMicrophoneAvailable}
               browserSupportsSpeechRecognition={
                 browserSupportsSpeechRecognition

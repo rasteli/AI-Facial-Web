@@ -3,13 +3,24 @@ import SpeechRecognition, {
   useSpeechRecognition
 } from "react-speech-recognition"
 
-import { useMessage } from "../contexts/MessageContext"
+import { chatApi } from "@/services/chatApi"
+import { useMessage } from "@/contexts/MessageContext"
+
+type Feeling = "ANGRY" | "HAPPY" | "TONGUE" | "TALKING" | "THINKING"
+
+interface ChatResponse {
+  talk: string
+  message: string
+  feeling: Feeling
+}
 
 export function useSpeech() {
   const { addMessage } = useMessage()
 
+  const [IzzoCanTalk, setIzzoCanTalk] = useState(false)
   const [notListening, setNotListening] = useState(true)
   const [cannotListen, setCannotListen] = useState(true)
+  const [feeling, setFeeling] = useState<Feeling>("TALKING")
 
   const {
     transcript,
@@ -43,24 +54,73 @@ export function useSpeech() {
     ]
   })
 
-  function startListening() {
+  function startListening(isFirstRender: boolean) {
     if (!isMicrophoneAvailable || !browserSupportsSpeechRecognition) return
 
     SpeechRecognition.startListening({
       continuous: true,
       language: "pt-BR"
     })
+
+    if (!isFirstRender) setCannotListen(false)
   }
 
-  function handleListening() {
-    setCannotListen(!cannotListen)
+  function stopListening() {
+    setCannotListen(true)
 
-    if (cannotListen) {
-      startListening()
-    } else {
-      SpeechRecognition.stopListening()
-      resetTranscript()
+    SpeechRecognition.stopListening()
+    resetTranscript()
+  }
+
+  function speakAI(text: string) {
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.lang = "pt-BR"
+    speechSynthesis.cancel()
+    speechSynthesis.speak(utterance)
+
+    utterance.addEventListener("start", () => {
+      stopListening()
+    })
+
+    utterance.addEventListener("end", () => {
+      startListening(false)
+    })
+  }
+
+  function sendUserMessage() {
+    const userMessage = {
+      sender: "user",
+      text: transcript,
+      sentAt: Date.now()
     }
+
+    addMessage(userMessage)
+  }
+
+  async function sendAIMessage() {
+    const { data } = await chatApi.post<ChatResponse>("/talk", {
+      message: transcript
+    })
+
+    let text = data.message
+
+    if (data.message.includes("%OPEN")) {
+      // data.message === "%OPEN:https://www.google.com"
+      const url = data.message.replace("%OPEN:", "") // -> "https://www.google.com"
+
+      text = `Abrindo ${url}`
+      window.open(url, "_blank")
+    }
+
+    const AIMessage = {
+      sender: "ai",
+      text,
+      sentAt: Date.now()
+    }
+
+    addMessage(AIMessage)
+    setFeeling(data.feeling)
+    if (IzzoCanTalk) speakAI(data.talk)
   }
 
   useEffect(() => {
@@ -70,13 +130,8 @@ export function useSpeech() {
     }, 1000)
 
     if (transcript && !notListening && !cannotListen) {
-      const message = {
-        sender: "user",
-        text: transcript,
-        sentAt: Date.now()
-      }
-
-      addMessage(message)
+      sendUserMessage()
+      sendAIMessage()
       resetTranscript()
     }
 
@@ -84,10 +139,13 @@ export function useSpeech() {
   }, [transcript, notListening])
 
   return {
+    feeling,
     transcript,
+    IzzoCanTalk,
     cannotListen,
+    stopListening,
+    setIzzoCanTalk,
     startListening,
-    handleListening,
     isMicrophoneAvailable,
     browserSupportsSpeechRecognition
   }

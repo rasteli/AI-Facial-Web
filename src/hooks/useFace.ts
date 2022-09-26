@@ -2,12 +2,12 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import * as faceapi from "face-api.js"
 
-import { useAuth } from "../contexts/AuthContext"
-import { LocationState } from "../components/Webcam"
+import { LocationState } from "@/pages/Webcam"
+import { useAuth } from "@/contexts/AuthContext"
 
-import { detectFace } from "../utils/detectFace"
-import { signUp, login } from "../utils/webcamRequests"
-import { getErrorMessage } from "../utils/getErrorMessage"
+import { detectFace } from "@/utils/detectFace"
+import { signUp, login } from "@/utils/webcamRequests"
+import { getErrorMessage } from "@/utils/getErrorMessage"
 
 const MIN_PROB_FACE = 50
 const NUMBER_OF_PHOTOS = 4
@@ -30,13 +30,11 @@ export function useFace({
   const { logIn, setUser, user } = useAuth()
 
   const navigate = useNavigate()
-  const [intervalDone, setIntervalDone] = useState(false)
   const [scanningDone, setScanningDone] = useState(false)
 
   let qtyImg = 0
   const width = 320
   const height = 240
-  var interval: number
 
   const form = new FormData()
 
@@ -64,10 +62,6 @@ export function useFace({
     })()
   }, [videoRef, canVideo])
 
-  useEffect(() => {
-    clearInterval(interval)
-  }, [intervalDone])
-
   async function getVideo() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -93,7 +87,7 @@ export function useFace({
     canvas.width = width
     canvas.height = height
 
-    interval = setInterval(async () => {
+    const interval = setInterval(async () => {
       const { faceDescriptions, probability } = await detectFace(
         canvas,
         video,
@@ -131,7 +125,7 @@ export function useFace({
             })
           } finally {
             stopWebcam()
-            setIntervalDone(true)
+            clearInterval(interval)
           }
         } else if (qtyImg < NUMBER_OF_PHOTOS) {
           takePhoto(form)

@@ -5,15 +5,17 @@ import { useViewport } from "@/hooks/useViewport"
 interface SpeechButtonProps {
   transcript: string
   cannotListen: boolean
-  handleListening: () => void
+  stopListening: () => void
   isMicrophoneAvailable: boolean
   browserSupportsSpeechRecognition: boolean
+  startListening: (isFirstRender: boolean) => void
 }
 
 export function SpeechButton({
   transcript,
   cannotListen,
-  handleListening,
+  stopListening,
+  startListening,
   isMicrophoneAvailable,
   browserSupportsSpeechRecognition
 }: SpeechButtonProps) {
@@ -21,7 +23,12 @@ export function SpeechButton({
 
   return (
     <>
-      <button onClick={handleListening}>
+      <button
+        onClick={() => {
+          cannotListen ? startListening(false) : stopListening()
+        }}
+        title="Ligar/Desligar captura de voz"
+      >
         <img src={cannotListen ? noMic : mic} />
       </button>
       {aboveThreshold && (
